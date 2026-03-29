@@ -1,87 +1,60 @@
-import type { CollectionAfterChangeHook } from 'payload'
+import type { CollectionBeforeChangeHook } from 'payload'
 import stripe from '../lib/stripe'
 
-export const syncToStripe: CollectionAfterChangeHook = async ({
-  doc,        // the product document that was just saved
-  operation,  // 'create' or 'update'
-  req,
+export const syncToStripe: CollectionBeforeChangeHook = async ({
+  data,
+  operation,
 }) => {
   try {
-     const apiKey = process.env.PAYLOAD_API_KEY
-    const priceInCents = Math.round(doc.price * 100) // Stripe uses cents
-    console.log("product doc that we want to save",doc)
-    
-    console.log(operation)
+    const priceInCents = Math.round(data.price * 100)
+
     if (operation === 'create') {
-      // 1 — Create a Product in Stripe
+      // Don't sync if already synced
+      if (data.stripeProductId) return data
+
+      console.log('Creating Stripe product for:', data.title)
+
+      // 1 — Create Stripe product
       const stripeProduct = await stripe.products.create({
-        name: doc.title,
+        name: data.title,
         metadata: {
-          payloadId: doc.id,
-          type: doc.type,
+          type: data.type,
         },
       })
 
-      // 2 — Create a Price attached to that product
+      // 2 — Create Stripe price
       const stripePrice = await stripe.prices.create({
         product: stripeProduct.id,
         unit_amount: priceInCents,
         currency: 'eur',
-        // if it's a subscription, bill monthly
-        ...(doc.type === 'subscription' && {
+        ...(data.type === 'subscription' && {
           recurring: { interval: 'year' },
         }),
       })
-      console.log("Add - stripePrice", stripePrice)
-      // 3 — Save the Stripe IDs back to Payload
-      // ← Use REST API instead of req.payload.update
-      const cmsUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-      const response = await fetch(`${cmsUrl}/api/products/${doc.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `users API-Key ${apiKey}`,
-        },
-        body: JSON.stringify({
-          stripeProductId: stripeProduct.id,
-          stripePriceId: stripePrice.id,
-        }),
-      })
-      
-      /*await req.payload.update({
-        collection: 'products',
-        id: doc.id,
-        data: {
-          stripeProductId: stripeProduct.id,
-          stripePriceId: stripePrice.id,
-        },
-      })*/
 
-      if (!response.ok) {
-        const error = await response.json()
-        console.error('❌ Failed to update product:', error)
-      } else {
-        console.log(`✅ Created Stripe product for: ${doc.title}`)
+      console.log('✅ Stripe product created:', stripeProduct.id)
+
+      // 3 — Return data with Stripe IDs included
+      // This saves everything in ONE single database write
+      return {
+        ...data,
+        stripeProductId: stripeProduct.id,
+        stripePriceId: stripePrice.id,
       }
-     
-      console.log("Add- stripeProduct",stripeProduct)
-      
-      console.log(`✅ Created Stripe product for: ${doc.title}`)
-      
-    } else if (operation === 'update' && doc.stripeProductId) {
-      // Update the existing Stripe product name
-      await stripe.products.update(doc.stripeProductId, {
-        name: doc.title,
-        metadata:{
-          unit_amount:priceInCents
-      }})
-      console.log("Stripe doc", doc)
-      console.log(`✅ Updated Stripe product for: ${doc.title}`)
+
+    } else if (operation === 'update') {
+      // Update Stripe product name if it changed
+      if (data.stripeProductId && data.title) {
+        await stripe.products.update(data.stripeProductId, {
+          name: data.title,
+        })
+        console.log('✅ Stripe product updated:', data.stripeProductId)
+      }
     }
 
   } catch (error) {
     console.error('❌ Stripe sync failed:', error)
   }
 
-  return doc
+  return data
 }

@@ -12,7 +12,7 @@ const Products: CollectionConfig = {
     defaultColumns: ['title', 'price', 'type', 'stripeProductId'],
   },
   hooks: {
-    afterChange: [syncToStripe],   
+    beforeChange: [syncToStripe],   // ← changed from afterChange to beforeChange
   },
   fields: [
     {
