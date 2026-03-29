@@ -7,12 +7,10 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
   req,
 }) => {
   try {
-    console.log('Stripe key exists:', !!process.env.STRIPE_SECRET_KEY)
-  console.log('Stripe key prefix:', process.env.STRIPE_SECRET_KEY?.substring(0, 7))
-
+     const apiKey = process.env.PAYLOAD_API_KEY
     const priceInCents = Math.round(doc.price * 100) // Stripe uses cents
     console.log("product doc that we want to save",doc)
-    console.log(priceInCents)
+    
     console.log(operation)
     if (operation === 'create') {
       // 1 — Create a Product in Stripe
@@ -38,9 +36,12 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
       // 3 — Save the Stripe IDs back to Payload
       // ← Use REST API instead of req.payload.update
       const cmsUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-      await fetch(`${cmsUrl}/api/products/${doc.id}`, {
+      const response = await fetch(`${cmsUrl}/api/products/${doc.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `users API-Key ${apiKey}`,
+        },
         body: JSON.stringify({
           stripeProductId: stripeProduct.id,
           stripePriceId: stripePrice.id,
@@ -55,6 +56,13 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
           stripePriceId: stripePrice.id,
         },
       })*/
+
+      if (!response.ok) {
+        const error = await response.json()
+        console.error('❌ Failed to update product:', error)
+      } else {
+        console.log(`✅ Created Stripe product for: ${doc.title}`)
+      }
      
       console.log("Add- stripeProduct",stripeProduct)
       
