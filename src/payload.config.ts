@@ -14,8 +14,7 @@ import Founders from './collections/Founders'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 
-import { cloudinaryAdapter } from '@payloadcms/plugin-cloud-storage/cloudinary'
-import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
+import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,20 +54,16 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-  cloudStoragePlugin({
-    collections: {
-      media: {
-        adapter: cloudinaryAdapter({
-          config: {
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
-            api_key: process.env.CLOUDINARY_API_KEY as string,
-            api_secret: process.env.CLOUDINARY_API_SECRET as string,
-          },
-        }),
+    uploadthingStorage({
+      collections: {
+        media: true,
       },
-    },
-  }),
-],
+      options: {
+        token: process.env.UPLOADTHING_TOKEN as string,
+        acl: 'public-read',
+      },
+    }),
+  ]
 })
 
 /*
