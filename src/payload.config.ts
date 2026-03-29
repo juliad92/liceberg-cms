@@ -18,10 +18,8 @@ import NewsletterSubscribers from './collections/NewsletterSubscribers'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-console.log('=== DEBUG ENV ===')
-console.log(buildConfig)
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
-console.log(Products)
+// console.log('DATABASE_URL:', process.env.DATABASE_URL)
+// console.log('DATABASE_URL:', process.env.SERVER_URL)
 
 export default buildConfig({
   serverURL: 'http://localhost:3000',
@@ -31,12 +29,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
- /* cors: [
+  cors: [
     'http://localhost:3001',
+    'https://liceberg-cms.vercel.app',   // ← CMS itself
+    'https://liceberg-web.vercel.app',   // ← web frontend
   ],
   csrf: [
     'http://localhost:3001',
-  ],*/
+    'https://liceberg-cms.vercel.app',   // ← CMS itself
+    'https://liceberg-web.vercel.app',   // ← web frontend
+  ],
   collections: [Users,
     Products,
     Orders,
@@ -57,11 +59,6 @@ export default buildConfig({
 })
 
 /*
-import { buildConfig } from 'payload'
-
-cconsole.log('PAYLOAD_SECRET:', process.env.PAYLOAD_SECRET)
-console.log('Current working directory:', process.cwd())
-console.log('=================')
 
 export default buildConfig({
   serverURL: 'http://localhost:3000',
