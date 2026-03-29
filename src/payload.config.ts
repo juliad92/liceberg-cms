@@ -22,7 +22,7 @@ const dirname = path.dirname(filename)
 // console.log('DATABASE_URL:', process.env.SERVER_URL)
 
 export default buildConfig({
-  serverURL: 'http://localhost:3000',
+  serverURL: process.env.SERVER_URL,
   admin: {
     user: Users.slug,
     importMap: {

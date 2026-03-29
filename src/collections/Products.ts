@@ -11,7 +11,7 @@ const Products: CollectionConfig = {
     defaultColumns: ['title', 'price', 'type', 'stripeProductId'],
   },
   hooks: {
-    afterChange: [syncToStripe],   // ← add this
+    afterChange: [syncToStripe],   
   },
   fields: [
     {

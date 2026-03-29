@@ -8,7 +8,9 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
 }) => {
   try {
     const priceInCents = Math.round(doc.price * 100) // Stripe uses cents
-
+    console.log("product doc that we want to save",doc)
+    console.log(priceInCents)
+    console.log(operation)
     if (operation === 'create') {
       // 1 — Create a Product in Stripe
       const stripeProduct = await stripe.products.create({
@@ -29,7 +31,7 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
           recurring: { interval: 'year' },
         }),
       })
-
+      console.log("Add - stripePrice", stripePrice)
       // 3 — Save the Stripe IDs back to Payload
       await req.payload.update({
         collection: 'products',
@@ -39,15 +41,18 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
           stripePriceId: stripePrice.id,
         },
       })
-
+      console.log("Add- stripeProduct",stripeProduct)
+      
       console.log(`✅ Created Stripe product for: ${doc.title}`)
-
+      
     } else if (operation === 'update' && doc.stripeProductId) {
       // Update the existing Stripe product name
       await stripe.products.update(doc.stripeProductId, {
         name: doc.title,
-      })
-
+        metadata:{
+          unit_amount:priceInCents
+      }})
+      console.log("Stripe doc", doc)
       console.log(`✅ Updated Stripe product for: ${doc.title}`)
     }
 
