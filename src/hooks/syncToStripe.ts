@@ -7,6 +7,9 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
   req,
 }) => {
   try {
+    console.log('Stripe key exists:', !!process.env.STRIPE_SECRET_KEY)
+  console.log('Stripe key prefix:', process.env.STRIPE_SECRET_KEY?.substring(0, 7))
+
     const priceInCents = Math.round(doc.price * 100) // Stripe uses cents
     console.log("product doc that we want to save",doc)
     console.log(priceInCents)
@@ -33,7 +36,7 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
       })
       console.log("Add - stripePrice", stripePrice)
       // 3 — Save the Stripe IDs back to Payload
-      await req.payload.update({
+      const payloadAction = await req.payload.update({
         collection: 'products',
         id: doc.id,
         data: {
@@ -41,6 +44,7 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
           stripePriceId: stripePrice.id,
         },
       })
+      console.log(payloadAction)
       console.log("Add- stripeProduct",stripeProduct)
       
       console.log(`✅ Created Stripe product for: ${doc.title}`)
