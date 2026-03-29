@@ -18,11 +18,8 @@ import NewsletterSubscribers from './collections/NewsletterSubscribers'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// console.log('DATABASE_URL:', process.env.DATABASE_URL)
-// console.log('DATABASE_URL:', process.env.SERVER_URL)
-
 export default buildConfig({
-  serverURL: process.env.SERVER_URL,
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
     user: Users.slug,
     importMap: {

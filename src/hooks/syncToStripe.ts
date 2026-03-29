@@ -36,15 +36,26 @@ export const syncToStripe: CollectionAfterChangeHook = async ({
       })
       console.log("Add - stripePrice", stripePrice)
       // 3 — Save the Stripe IDs back to Payload
-      const payloadAction = await req.payload.update({
+      // ← Use REST API instead of req.payload.update
+      const cmsUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+      await fetch(`${cmsUrl}/api/products/${doc.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stripeProductId: stripeProduct.id,
+          stripePriceId: stripePrice.id,
+        }),
+      })
+      
+      /*await req.payload.update({
         collection: 'products',
         id: doc.id,
         data: {
           stripeProductId: stripeProduct.id,
           stripePriceId: stripePrice.id,
         },
-      })
-      console.log(payloadAction)
+      })*/
+     
       console.log("Add- stripeProduct",stripeProduct)
       
       console.log(`✅ Created Stripe product for: ${doc.title}`)
