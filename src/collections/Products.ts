@@ -5,6 +5,7 @@ const Products: CollectionConfig = {
   slug: 'products',
   access: {
     read: () => true,   // ← anyone can read products
+    update: () => true,
   },
   admin: {
     useAsTitle: 'title',       // shows the product title in the admin list
