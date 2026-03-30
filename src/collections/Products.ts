@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { syncToStripe } from '../hooks/syncToStripe' 
+import { Analytics } from "@vercel/analytics/next"
 
 const Products: CollectionConfig = {
   slug: 'products',
