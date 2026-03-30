@@ -87,6 +87,10 @@ const Products: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'imageTmp',
+      type: 'text',
+    },
     // Stripe fields — filled automatically by our hook later
     {
       name: 'stripeProductId',
