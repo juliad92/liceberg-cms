@@ -52,18 +52,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  sharp,
-  plugins: [
-    uploadthingStorage({
-      collections: {
-        media: true,
-      },
-      options: {
-        token: process.env.UPLOADTHING_TOKEN as string,
-        acl: 'public-read',
-      },
-    }),
-  ]
+  sharp
 })
 
 /*
