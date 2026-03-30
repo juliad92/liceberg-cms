@@ -55,6 +55,13 @@ const Products: CollectionConfig = {
       type: 'richText',         // the editorial text below the price
     },
     {
+  name: 'summary',
+  type: 'richText',
+  admin: {
+    description: 'Résumé éditorial du numéro — affiché sur la fiche produit',
+  },
+},
+    {
       name: 'features',
       type: 'array',            // the bullet points list ("Vous recevez...")
       fields: [
