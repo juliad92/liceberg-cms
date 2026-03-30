@@ -253,6 +253,7 @@ export interface Founder {
   role?: string | null;
   bio?: string | null;
   photo?: (string | null) | Media;
+  mediaTmp?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -476,6 +477,7 @@ export interface FoundersSelect<T extends boolean = true> {
   role?: T;
   bio?: T;
   photo?: T;
+  mediaTmp?: T;
   updatedAt?: T;
   createdAt?: T;
 }
