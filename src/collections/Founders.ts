@@ -17,6 +17,7 @@ const Founders: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+    { name: 'mediaTmp', type: 'text' }
   ],
 }
 
