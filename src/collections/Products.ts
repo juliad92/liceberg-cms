@@ -55,12 +55,17 @@ const Products: CollectionConfig = {
       type: 'richText',         // the editorial text below the price
     },
     {
-  name: 'summary',
-  type: 'richText',
-  admin: {
-    description: 'Résumé éditorial du numéro — affiché sur la fiche produit',
-  },
-},
+      name: 'summary',
+      type: 'array',
+      admin: {
+        description: 'Sommaire du numéro',
+      },
+      fields: [
+        { name: 'page', type: 'text', required: true },      // "32"
+        { name: 'rubrique', type: 'text', required: true },  // "Sur le terrain"
+        { name: 'title', type: 'text', required: true },     // "À Plessé..."
+      ],
+    },
     {
       name: 'features',
       type: 'array',            // the bullet points list ("Vous recevez...")

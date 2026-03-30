@@ -183,23 +183,16 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Résumé éditorial du numéro — affiché sur la fiche produit
+   * Sommaire du numéro
    */
-  summary?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  summary?:
+    | {
+        page: string;
+        rubrique: string;
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
   features?:
     | {
         text?: string | null;
@@ -445,7 +438,14 @@ export interface ProductsSelect<T extends boolean = true> {
   originalPrice?: T;
   badge?: T;
   description?: T;
-  summary?: T;
+  summary?:
+    | T
+    | {
+        page?: T;
+        rubrique?: T;
+        title?: T;
+        id?: T;
+      };
   features?:
     | T
     | {
