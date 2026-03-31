@@ -13,7 +13,17 @@ const Products: CollectionConfig = {
     defaultColumns: ['title', 'price', 'type', 'stripeProductId'],
   },
   hooks: {
-    beforeChange: [syncToStripe],   // ← changed from afterChange to beforeChange
+    beforeChange: [syncToStripe],   
+    afterRead: [                         
+      ({ doc }) => {
+        if (doc?.summary && Array.isArray(doc.summary)) {
+          doc.summary = [...doc.summary].sort(
+            (a: any, b: any) => parseInt(a.page) - parseInt(b.page)
+          )
+        }
+        return doc
+      },
+    ],
   },
   fields: [
     {
