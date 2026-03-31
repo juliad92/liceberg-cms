@@ -68,6 +68,7 @@ const Products: CollectionConfig = {
     {
       name: 'summary',
       type: 'array',
+      label: 'Sommaire du numéro',
       admin: {
         description: 'Sommaire du numéro',
       },
@@ -77,6 +78,7 @@ const Products: CollectionConfig = {
         { name: 'title', type: 'text', required: true },     // "À Plessé..."
       ],
     },
+    { name: 'issueNumber', type: 'text', admin: { description: 'ex: 4' } },
     {
       name: 'features',
       type: 'array',            // the bullet points list ("Vous recevez...")
@@ -102,6 +104,21 @@ const Products: CollectionConfig = {
       name: 'imageTmp',
       type: 'text',
     },
+    {
+      name: 'pages',
+      type: 'array',
+      label: 'Pages intérieures',
+      admin: { description: 'Photos de pages intérieures du magazine' },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+      ],
+    },
+    
     // Stripe fields — filled automatically by our hook later
     {
       name: 'stripeProductId',

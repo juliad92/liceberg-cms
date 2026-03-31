@@ -164,6 +164,10 @@ export interface Product {
   title: string;
   slug: string;
   type: 'issue' | 'subscription' | 'pack' | 'poster';
+  /**
+   * ex: 4
+   */
+  issueNumber?: string | null;
   price: number;
   originalPrice?: number | null;
   badge?: string | null;
@@ -183,8 +187,14 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Sommaire du numéro
+   * Photos de pages intérieures du magazine
    */
+  pages?:
+    | {
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
   summary?:
     | {
         page: string;
@@ -436,10 +446,17 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   type?: T;
+  issueNumber?: T;
   price?: T;
   originalPrice?: T;
   badge?: T;
   description?: T;
+  pages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   summary?:
     | T
     | {
