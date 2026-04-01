@@ -71,6 +71,20 @@ const Orders: CollectionConfig = {
         { name: 'country', type: 'text' },
       ],
     },
+    {
+      name: 'paymentMethod',
+      type: 'select',
+      options: [
+        { label: 'Carte bancaire', value: 'card' },
+        { label: 'Prélèvement SEPA', value: 'sepa_debit' },
+      ],
+      defaultValue: 'card',
+    },
+    { name: 'orderType', type: 'select', options: [
+      { label: 'Paiement unique', value: 'payment' },
+      { label: 'Abonnement', value: 'subscription' },
+      ], defaultValue: 'payment' },
+    { name: 'stripeSubscriptionId', type: 'text' },
   ],
 }
 

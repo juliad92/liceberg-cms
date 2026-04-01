@@ -164,10 +164,6 @@ export interface Product {
   title: string;
   slug: string;
   type: 'issue' | 'subscription' | 'pack' | 'poster';
-  /**
-   * ex: 4
-   */
-  issueNumber?: string | null;
   price: number;
   originalPrice?: number | null;
   badge?: string | null;
@@ -187,14 +183,8 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Photos de pages intérieures du magazine
+   * Sommaire du numéro
    */
-  pages?:
-    | {
-        image: string | Media;
-        id?: string | null;
-      }[]
-    | null;
   summary?:
     | {
         page: string;
@@ -203,6 +193,10 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * ex: 4
+   */
+  issueNumber?: string | null;
   features?:
     | {
         text?: string | null;
@@ -216,6 +210,15 @@ export interface Product {
       }[]
     | null;
   imageTmp?: string | null;
+  /**
+   * Photos de pages intérieures du magazine
+   */
+  pages?:
+    | {
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
   updatedAt: string;
@@ -265,6 +268,9 @@ export interface Order {
     postalCode?: string | null;
     country?: string | null;
   };
+  paymentMethod?: ('card' | 'sepa_debit') | null;
+  orderType?: ('payment' | 'subscription') | null;
+  stripeSubscriptionId?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -446,17 +452,10 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   type?: T;
-  issueNumber?: T;
   price?: T;
   originalPrice?: T;
   badge?: T;
   description?: T;
-  pages?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
   summary?:
     | T
     | {
@@ -465,6 +464,7 @@ export interface ProductsSelect<T extends boolean = true> {
         title?: T;
         id?: T;
       };
+  issueNumber?: T;
   features?:
     | T
     | {
@@ -478,6 +478,12 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   imageTmp?: T;
+  pages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   stripeProductId?: T;
   stripePriceId?: T;
   updatedAt?: T;
@@ -509,6 +515,9 @@ export interface OrdersSelect<T extends boolean = true> {
         postalCode?: T;
         country?: T;
       };
+  paymentMethod?: T;
+  orderType?: T;
+  stripeSubscriptionId?: T;
   updatedAt?: T;
   createdAt?: T;
 }
