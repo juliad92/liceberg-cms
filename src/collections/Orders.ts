@@ -10,7 +10,15 @@ const Orders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'customerEmail',
-    defaultColumns: ['customerEmail', 'total', 'status', 'orderType', 'startingIssue', 'createdAt'],
+    defaultColumns: [
+      'customerEmail',
+      'productTitle',
+      'total',
+      'status',
+      'orderType',
+      'startingIssue',
+      'createdAt',
+    ],
   },
 
   fields: [
@@ -23,6 +31,12 @@ const Orders: CollectionConfig = {
       name: 'customerName',
       type: 'text',
     },
+    {
+      name: 'productTitle',
+      type: 'text',
+      admin: { readOnly: true },
+    },
+
     {
       name: 'stripeSessionId',
       type: 'text', // the ID from Stripe, to avoid duplicates
