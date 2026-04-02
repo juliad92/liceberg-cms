@@ -13,6 +13,7 @@ import Orders from './collections/Orders'
 import Founders from './collections/Founders'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
+import Accounts from './collections/Accounts'
 
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 
@@ -37,7 +38,9 @@ export default buildConfig({
     'https://liceberg-cms.vercel.app',   // ← CMS itself
     'https://liceberg-web.vercel.app',   // ← web frontend
   ],
-  collections: [Users,
+  collections: [
+    Users,      // ← admins CMS uniquement
+    Accounts,   // ← abonnés du site
     Products,
     Orders,
     Founders,
