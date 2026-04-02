@@ -1,10 +1,7 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 import stripe from '../lib/stripe'
 
-export const syncToStripe: CollectionBeforeChangeHook = async ({
-  data,
-  operation,
-}) => {
+export const syncToStripe: CollectionBeforeChangeHook = async ({ data, operation }) => {
   try {
     const priceInCents = Math.round(data.price * 100)
 
@@ -28,9 +25,7 @@ export const syncToStripe: CollectionBeforeChangeHook = async ({
         unit_amount: priceInCents,
         currency: 'eur',
         ...(data.type === 'subscription' && {
-          recurring: { interval: 'month',
-            interval_count:3,
-           },
+          recurring: { interval: 'month', interval_count: 3 },
         }),
       })
 
@@ -43,7 +38,6 @@ export const syncToStripe: CollectionBeforeChangeHook = async ({
         stripeProductId: stripeProduct.id,
         stripePriceId: stripePrice.id,
       }
-
     } else if (operation === 'update') {
       // Update Stripe product name if it changed
       if (data.stripeProductId && data.title) {
@@ -53,7 +47,6 @@ export const syncToStripe: CollectionBeforeChangeHook = async ({
         console.log('✅ Stripe product updated:', data.stripeProductId)
       }
     }
-
   } catch (error) {
     console.error('❌ Stripe sync failed:', error)
   }

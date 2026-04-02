@@ -3,7 +3,7 @@ import { CollectionConfig } from 'payload'
 const FAQ: CollectionConfig = {
   slug: 'faq',
   access: {
-    read: () => true,   // ← anyone can read faq
+    read: () => true, // ← anyone can read faq
   },
   admin: {
     useAsTitle: 'question',
@@ -11,7 +11,7 @@ const FAQ: CollectionConfig = {
   fields: [
     { name: 'question', type: 'text', required: true },
     { name: 'answer', type: 'richText', required: true },
-    { name: 'order', type: 'number' },   // controls display order
+    { name: 'order', type: 'number' }, // controls display order
   ],
 }
 

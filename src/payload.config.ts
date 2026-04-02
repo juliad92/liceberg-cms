@@ -30,23 +30,24 @@ export default buildConfig({
   },
   cors: [
     'http://localhost:3001',
-    'https://liceberg-cms.vercel.app',   // ← CMS itself
-    'https://liceberg-web.vercel.app',   // ← web frontend
+    'https://liceberg-cms.vercel.app', // ← CMS itself
+    'https://liceberg-web.vercel.app', // ← web frontend
   ],
   csrf: [
     'http://localhost:3001',
-    'https://liceberg-cms.vercel.app',   // ← CMS itself
-    'https://liceberg-web.vercel.app',   // ← web frontend
+    'https://liceberg-cms.vercel.app', // ← CMS itself
+    'https://liceberg-web.vercel.app', // ← web frontend
   ],
   collections: [
-    Users,      // ← admins CMS uniquement
-    Accounts,   // ← abonnés du site
+    Users, // ← admins CMS uniquement
+    Accounts, // ← abonnés du site
     Products,
     Orders,
     Founders,
     FAQ,
     Media,
-    NewsletterSubscribers],
+    NewsletterSubscribers,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -55,7 +56,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
-  sharp
+  sharp,
 })
 
 /*

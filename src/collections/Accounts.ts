@@ -2,14 +2,14 @@ import { CollectionConfig } from 'payload'
 
 const Accounts: CollectionConfig = {
   slug: 'accounts',
-  auth: true,           // ← gère login/password
+  auth: true, // ← gère login/password
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'stripeCustomerId', 'createdAt']
+    defaultColumns: ['email', 'name', 'stripeCustomerId', 'createdAt'],
   },
   access: {
-    create: () => true,   // ← inscription publique depuis le site
-    read: () => true,    // false ? 
+    create: () => true, // ← inscription publique depuis le site
+    read: () => true, // false ?
     update: () => true,
     delete: () => true,
   },

@@ -3,8 +3,8 @@ import { CollectionConfig } from 'payload'
 const Orders: CollectionConfig = {
   slug: 'orders',
   access: {
-    create: () => true,   // ← allow Stripe webhook to create orders
-    read: () => true,    // ← false only admins can read orders
+    create: () => true, // ← allow Stripe webhook to create orders
+    read: () => true, // ← false only admins can read orders
     update: () => false,
     delete: () => false,
   },
@@ -25,12 +25,12 @@ const Orders: CollectionConfig = {
     },
     {
       name: 'stripeSessionId',
-      type: 'text',             // the ID from Stripe, to avoid duplicates
+      type: 'text', // the ID from Stripe, to avoid duplicates
       unique: true,
     },
     {
       name: 'items',
-      type: 'array',            // what was bought
+      type: 'array', // what was bought
       fields: [
         {
           name: 'product',
@@ -51,7 +51,7 @@ const Orders: CollectionConfig = {
       name: 'startingIssue',
       type: 'text',
       admin: {
-        description: 'Numéro de départ de l\'abonnement (ex: 4, 5...)',
+        description: "Numéro de départ de l'abonnement (ex: 4, 5...)",
         condition: (data) => data.orderType === 'subscription',
       },
     },
@@ -72,7 +72,7 @@ const Orders: CollectionConfig = {
     },
     {
       name: 'shippingAddress',
-      type: 'group',            // groups related fields together
+      type: 'group', // groups related fields together
       fields: [
         { name: 'line1', type: 'text' },
         { name: 'city', type: 'text' },
@@ -89,10 +89,15 @@ const Orders: CollectionConfig = {
       ],
       defaultValue: 'card',
     },
-    { name: 'orderType', type: 'select', options: [
-      { label: 'Paiement unique', value: 'payment' },
-      { label: 'Abonnement', value: 'subscription' },
-      ], defaultValue: 'payment' },
+    {
+      name: 'orderType',
+      type: 'select',
+      options: [
+        { label: 'Paiement unique', value: 'payment' },
+        { label: 'Abonnement', value: 'subscription' },
+      ],
+      defaultValue: 'payment',
+    },
     { name: 'stripeSubscriptionId', type: 'text' },
   ],
 }

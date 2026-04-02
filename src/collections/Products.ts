@@ -1,24 +1,24 @@
 import { CollectionConfig } from 'payload'
-import { syncToStripe } from '../hooks/syncToStripe' 
-import { Analytics } from "@vercel/analytics/next"
+import { syncToStripe } from '../hooks/syncToStripe'
+import { Analytics } from '@vercel/analytics/next'
 
 const Products: CollectionConfig = {
   slug: 'products',
   access: {
-    read: () => true,   // ← anyone can read products
+    read: () => true, // ← anyone can read products
     update: () => true,
   },
   admin: {
-    useAsTitle: 'title',       // shows the product title in the admin list
+    useAsTitle: 'title', // shows the product title in the admin list
     defaultColumns: ['title', 'price', 'type', 'stripeProductId'],
   },
   hooks: {
-    beforeChange: [syncToStripe],   
-    afterRead: [                         
+    beforeChange: [syncToStripe],
+    afterRead: [
       ({ doc }) => {
         if (doc?.summary && Array.isArray(doc.summary)) {
           doc.summary = [...doc.summary].sort(
-            (a: any, b: any) => parseInt(a.page) - parseInt(b.page)
+            (a: any, b: any) => parseInt(a.page) - parseInt(b.page),
           )
         }
         return doc
@@ -29,17 +29,17 @@ const Products: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      required: true,           // ex: "Le numéro 4"
+      required: true, // ex: "Le numéro 4"
     },
     {
       name: 'slug',
       type: 'text',
       required: true,
-      unique: true,             // ex: "numero-4" — used in the URL
+      unique: true, // ex: "numero-4" — used in the URL
     },
     {
       name: 'type',
-      type: 'select',           // dropdown in the admin UI
+      type: 'select', // dropdown in the admin UI
       options: [
         { label: 'Single Issue', value: 'issue' },
         { label: 'Subscription', value: 'subscription' },
@@ -51,19 +51,19 @@ const Products: CollectionConfig = {
     {
       name: 'price',
       type: 'number',
-      required: true,           // in euros, ex: 19
+      required: true, // in euros, ex: 19
     },
     {
       name: 'originalPrice',
-      type: 'number',           // the crossed-out price, ex: 86
+      type: 'number', // the crossed-out price, ex: 86
     },
     {
       name: 'badge',
-      type: 'text',             // ex: "OFFRE limitée jusqu'au 31 mars"
+      type: 'text', // ex: "OFFRE limitée jusqu'au 31 mars"
     },
     {
       name: 'description',
-      type: 'richText',         // the editorial text below the price
+      type: 'richText', // the editorial text below the price
     },
     {
       name: 'summary',
@@ -73,15 +73,15 @@ const Products: CollectionConfig = {
         description: 'Sommaire du numéro',
       },
       fields: [
-        { name: 'page', type: 'text', required: true },      // "32"
-        { name: 'rubrique', type: 'text', required: true },  // "Sur le terrain"
-        { name: 'title', type: 'text', required: true },     // "À Plessé..."
+        { name: 'page', type: 'text', required: true }, // "32"
+        { name: 'rubrique', type: 'text', required: true }, // "Sur le terrain"
+        { name: 'title', type: 'text', required: true }, // "À Plessé..."
       ],
     },
     { name: 'issueNumber', type: 'text', admin: { description: 'ex: 4' } },
     {
       name: 'features',
-      type: 'array',            // the bullet points list ("Vous recevez...")
+      type: 'array', // the bullet points list ("Vous recevez...")
       fields: [
         {
           name: 'text',
@@ -96,7 +96,7 @@ const Products: CollectionConfig = {
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'media',  // links to our Media collection
+          relationTo: 'media', // links to our Media collection
         },
       ],
     },
@@ -118,7 +118,7 @@ const Products: CollectionConfig = {
         },
       ],
     },
-    
+
     // Stripe fields — filled automatically by our hook later
     {
       name: 'stripeProductId',
