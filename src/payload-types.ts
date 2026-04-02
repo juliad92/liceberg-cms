@@ -311,6 +311,10 @@ export interface Order {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Numéro de départ de l'abonnement (ex: 4, 5...)
+   */
+  startingIssue?: string | null;
   total?: number | null;
   status?: ('pending' | 'paid' | 'shipped' | 'cancelled') | null;
   shippingAddress?: {
@@ -594,6 +598,7 @@ export interface OrdersSelect<T extends boolean = true> {
         price?: T;
         id?: T;
       };
+  startingIssue?: T;
   total?: T;
   status?: T;
   shippingAddress?:

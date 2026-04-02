@@ -10,8 +10,9 @@ const Orders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'customerEmail',
-    defaultColumns: ['customerEmail', 'total', 'status', 'createdAt'],
+    defaultColumns: ['customerEmail', 'total', 'status', 'orderType', 'startingIssue', 'createdAt'],
   },
+
   fields: [
     {
       name: 'customerEmail',
@@ -45,6 +46,14 @@ const Orders: CollectionConfig = {
           type: 'number',
         },
       ],
+    },
+    {
+      name: 'startingIssue',
+      type: 'text',
+      admin: {
+        description: 'Numéro de départ de l\'abonnement (ex: 4, 5...)',
+        condition: (data) => data.orderType === 'subscription',
+      },
     },
     {
       name: 'total',
