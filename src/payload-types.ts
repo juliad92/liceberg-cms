@@ -270,6 +270,7 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  pagesTmp?: string | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
   updatedAt: string;
@@ -578,6 +579,7 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  pagesTmp?: T;
   stripeProductId?: T;
   stripePriceId?: T;
   updatedAt?: T;

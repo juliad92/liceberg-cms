@@ -18,7 +18,7 @@ const Products: CollectionConfig = {
       ({ doc }) => {
         if (doc?.summary && Array.isArray(doc.summary)) {
           doc.summary = [...doc.summary].sort(
-            (a: any, b: any) => parseInt(a.page) - parseInt(b.page),
+            (a: any, b: any) => parseInt(a.page) - parseInt(b.page)
           )
         }
         return doc
@@ -117,6 +117,10 @@ const Products: CollectionConfig = {
           required: true,
         },
       ],
+    },
+    {
+      name: 'pagesTmp',
+      type: 'text',
     },
 
     // Stripe fields — filled automatically by our hook later
