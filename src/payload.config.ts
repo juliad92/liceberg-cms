@@ -15,7 +15,7 @@ import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
 
-import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,6 +55,18 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
+  }),
+  email: nodemailerAdapter({
+    defaultFromAddress: 'onboarding@resend.dev',
+    defaultFromName: "L'Iceberg",
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
   }),
   sharp,
 })

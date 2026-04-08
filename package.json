@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.80.0",
+    "@payloadcms/email-nodemailer": "^3.81.0",
     "@payloadcms/next": "3.80.0",
     "@payloadcms/richtext-lexical": "3.80.0",
     "@payloadcms/storage-uploadthing": "^3.80.0",
