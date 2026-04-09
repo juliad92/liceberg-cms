@@ -21,7 +21,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    staticDir: 'tmp', // Dossier temporaire local avant l'envoi au blob
+    staticDir: '/tmp', // Dossier temporaire local avant l'envoi au blob
     imageSizes: [
       {
         name: 'thumbnail',
