@@ -16,6 +16,10 @@ const Founders: CollectionConfig = {
       name: 'photo',
       type: 'upload',
       relationTo: 'media',
+      filterOptions: {
+        // Optionnel : n'affiche que les images dans le sélecteur
+        mimeType: { not_like: 'application/pdf' },
+      },
     },
     { name: 'mediaTmp', type: 'text' },
   ],
