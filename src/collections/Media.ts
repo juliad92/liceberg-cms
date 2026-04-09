@@ -36,7 +36,10 @@ export const Media: CollectionConfig = {
     // Ce hook s'exécute après que le fichier soit arrivé sur le serveur du CMS
     afterChange: [
       async ({ doc, req, operation }) => {
-        if (operation === 'create' || operation === 'update') {
+        if (
+          (operation === 'create' || operation === 'update') &&
+          req.file?.data
+        ) {
           // 1. Déterminer le dossier en fonction de l'extension
           const isPDF = doc.filename.toLowerCase().endsWith('.pdf')
           const folder = isPDF ? 'pdfs' : 'images'
