@@ -42,39 +42,40 @@ export const Media: CollectionConfig = {
     adminThumbnail: ({ doc }) => (doc.blobUrl as string) || '',
   },
   hooks: {
-    // Ce hook s'exécute après que le fichier soit arrivé sur le serveur du CMS
-    afterChange: [
-      async ({ doc, req, operation }) => {
+    beforeChange: [
+      async ({ data, req, operation }) => {
+        // On ne s'occupe que de la création ou si un nouveau fichier est envoyé
         if (
           (operation === 'create' || operation === 'update') &&
           req.file?.data
         ) {
-          // 1. Déterminer le dossier en fonction de l'extension
-          const isPDF = doc.filename.toLowerCase().endsWith('.pdf')
-          const folder = isPDF ? 'pdfs' : 'images'
-
           try {
-            // 3. Upload vers Vercel Blob
-            const blob = await put(`${folder}/${doc.filename}`, req.file.data, {
-              access: 'public',
-              token: process.env.BLOB_READ_WRITE_TOKEN,
-              addRandomSuffix: true,
-            })
-            console.log('Blob URL:', blob.url)
-            // 4. Mettre à jour le document Payload avec l'URL finale
-            // On utilise req.payload.update pour éviter de relancer les hooks à l'infini
-            const res = await req.payload.update({
-              collection: 'media',
-              id: doc.id,
-              data: {
-                blobUrl: blob.url,
-              } as any,
-            })
-            console.log('Document mis à jour avec blobUrl:', res)
+            const isPDF = req.file.name.toLowerCase().endsWith('.pdf')
+            const folder = isPDF ? 'pdfs' : 'images'
+
+            // On upload sur Vercel
+            const blob = await put(
+              `${folder}/${req.file.name}`,
+              req.file.data,
+              {
+                access: 'public',
+                token: process.env.BLOB_READ_WRITE_TOKEN,
+                addRandomSuffix: true,
+              }
+            )
+
+            // AU LIEU de faire un .update(), on modifie directement l'objet 'data'
+            // Payload enregistrera ces valeurs automatiquement.
+            return {
+              ...data,
+              blobUrl: blob.url,
+              url: blob.url, // On peut aussi écraser l'URL ici
+            }
           } catch (err) {
-            console.error("Erreur lors de l'upload vers Vercel:", err)
+            console.error('Erreur Blob:', err)
           }
         }
+        return data
       },
     ],
   },
