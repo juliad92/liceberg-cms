@@ -288,6 +288,7 @@ export interface Product {
 export interface Media {
   id: string;
   alt: string;
+  blobUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -660,6 +661,7 @@ export interface FaqSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  blobUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

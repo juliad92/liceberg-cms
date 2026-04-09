@@ -7,7 +7,7 @@ export const Media: CollectionConfig = {
     read: () => true,
   },
   admin: {
-    useAsTitle: 'url',
+    useAsTitle: 'blobUrl',
   },
   fields: [
     {
@@ -17,8 +17,18 @@ export const Media: CollectionConfig = {
     },
 
     {
-      name: 'url',
+      name: 'blobUrl',
       type: 'text',
+      hooks: {
+        afterRead: [
+          ({ data, value }) => {
+            // Si Payload essaie de renvoyer l'URL locale cassée,
+            // on s'assure que blobUrl est prioritaire dans ton esprit,
+            // mais ici on peut aussi forcer la valeur si elle manque.
+            return value
+          },
+        ],
+      },
       admin: {
         position: 'sidebar',
         readOnly: true,
@@ -29,7 +39,7 @@ export const Media: CollectionConfig = {
     staticDir: '/tmp', // Dossier temporaire local avant l'envoi au blob
     handlers: [],
     imageSizes: [],
-    adminThumbnail: ({ doc }) => (doc.url as string) || '',
+    adminThumbnail: ({ doc }) => (doc.blobUrl as string) || '',
   },
   hooks: {
     // Ce hook s'exécute après que le fichier soit arrivé sur le serveur du CMS
@@ -43,26 +53,24 @@ export const Media: CollectionConfig = {
           const isPDF = doc.filename.toLowerCase().endsWith('.pdf')
           const folder = isPDF ? 'pdfs' : 'images'
 
-          // On récupère le fichier local
-          // const filePath = `${process.cwd()}/tmp/${doc.filename}`
-
           try {
-            // 2. Upload vers Vercel Blob
+            // 3. Upload vers Vercel Blob
             const blob = await put(`${folder}/${doc.filename}`, req.file.data, {
               access: 'public',
               token: process.env.BLOB_READ_WRITE_TOKEN,
               addRandomSuffix: true,
             })
-
-            // 3. Mettre à jour le document Payload avec l'URL finale
+            console.log('Blob URL:', blob.url)
+            // 4. Mettre à jour le document Payload avec l'URL finale
             // On utilise req.payload.update pour éviter de relancer les hooks à l'infini
-            await req.payload.update({
+            const res = await req.payload.update({
               collection: 'media',
               id: doc.id,
               data: {
-                url: blob.url,
-              },
+                blobUrl: blob.url,
+              } as any,
             })
+            console.log('Document mis à jour avec blobUrl:', res)
           } catch (err) {
             console.error("Erreur lors de l'upload vers Vercel:", err)
           }
