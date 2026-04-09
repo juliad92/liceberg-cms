@@ -22,14 +22,7 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     staticDir: '/tmp', // Dossier temporaire local avant l'envoi au blob
-    imageSizes: [
-      {
-        name: 'thumbnail',
-        width: 400,
-        height: 300,
-        position: 'centre',
-      },
-    ],
+    imageSizes: [],
     adminThumbnail: 'thumbnail',
   },
   hooks: {
@@ -48,14 +41,14 @@ export const Media: CollectionConfig = {
           const blobPath = `${folder}/${doc.filename}`
 
           // On récupère le fichier local
-          const filePath = `${process.cwd()}/tmp/${doc.filename}`
+          // const filePath = `${process.cwd()}/tmp/${doc.filename}`
 
           try {
             // 3. Upload vers Vercel Blob
             const blob = await put(blobPath, req.file.data, {
               access: 'public',
               token: process.env.BLOB_READ_WRITE_TOKEN,
-              addRandomSuffix: false, // Optionnel : garde le nom exact du fichier
+              addRandomSuffix: true, // Optionnel : garde le nom exact du fichier
             })
             // 4. Mettre à jour le document Payload avec l'URL finale
             // On utilise req.payload.update pour éviter de relancer les hooks à l'infini
