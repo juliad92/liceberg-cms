@@ -97,6 +97,10 @@ const Products: CollectionConfig = {
           name: 'image',
           type: 'upload',
           relationTo: 'media', // links to our Media collection
+          filterOptions: {
+            // Optionnel : n'affiche que les images dans le sélecteur
+            mimeType: { not_like: 'application/pdf' },
+          },
         },
       ],
     },
@@ -115,6 +119,10 @@ const Products: CollectionConfig = {
           type: 'upload',
           relationTo: 'media',
           required: true,
+          filterOptions: {
+            // Optionnel : n'affiche que les PDFs dans le sélecteur
+            mimeType: { like: 'application/pdf' },
+          },
         },
       ],
     },
