@@ -122,10 +122,6 @@ const Products: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'pagesTmp',
-      type: 'text',
-    },
 
     // Stripe fields — filled automatically by our hook later
     {

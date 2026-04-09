@@ -274,7 +274,6 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
-  pagesTmp?: string | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
   updatedAt: string;
@@ -347,7 +346,6 @@ export interface Founder {
   role?: string | null;
   bio?: string | null;
   photo?: (string | null) | Media;
-  mediaTmp?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -589,7 +587,6 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  pagesTmp?: T;
   stripeProductId?: T;
   stripePriceId?: T;
   updatedAt?: T;
@@ -638,7 +635,6 @@ export interface FoundersSelect<T extends boolean = true> {
   role?: T;
   bio?: T;
   photo?: T;
-  mediaTmp?: T;
   updatedAt?: T;
   createdAt?: T;
 }

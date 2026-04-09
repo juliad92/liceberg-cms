@@ -21,7 +21,6 @@ const Founders: CollectionConfig = {
         mimeType: { not_like: 'application/pdf' },
       },
     },
-    { name: 'mediaTmp', type: 'text' },
   ],
 }
 
