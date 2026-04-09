@@ -265,7 +265,6 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
-  imageTmp?: string | null;
   /**
    * Photos de pages intérieures du magazine
    */
@@ -584,7 +583,6 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  imageTmp?: T;
   pages?:
     | T
     | {

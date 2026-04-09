@@ -105,10 +105,6 @@ const Products: CollectionConfig = {
       ],
     },
     {
-      name: 'imageTmp',
-      type: 'text',
-    },
-    {
       name: 'pages',
       type: 'array',
       label: 'Pages intérieures',
