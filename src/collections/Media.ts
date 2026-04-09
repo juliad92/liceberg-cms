@@ -6,6 +6,9 @@ export const Media: CollectionConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    useAsTitle: 'filename',
+  },
   fields: [
     {
       name: 'alt',
@@ -22,8 +25,9 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     staticDir: '/tmp', // Dossier temporaire local avant l'envoi au blob
+    handlers: [],
     imageSizes: [],
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: ({ doc }) => (doc.url as string) || '',
   },
   hooks: {
     // Ce hook s'exécute après que le fichier soit arrivé sur le serveur du CMS
