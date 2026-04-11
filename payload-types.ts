@@ -87,13 +87,19 @@ export interface Config {
     founders: FoundersSelect<false> | FoundersSelect<true>
     faq: FaqSelect<false> | FaqSelect<true>
     media: MediaSelect<false> | MediaSelect<true>
-    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>
+    'newsletter-subscribers':
+      | NewsletterSubscribersSelect<false>
+      | NewsletterSubscribersSelect<true>
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
       | PayloadLockedDocumentsSelect<true>
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+    'payload-preferences':
+      | PayloadPreferencesSelect<false>
+      | PayloadPreferencesSelect<true>
+    'payload-migrations':
+      | PayloadMigrationsSelect<false>
+      | PayloadMigrationsSelect<true>
   }
   db: {
     defaultIDType: string

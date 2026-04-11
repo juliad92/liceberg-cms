@@ -61,7 +61,11 @@ Payload automatically uses transactions for all-or-nothing database operations.
 
 ```typescript
 // ✅ CORRECT: Thread req through nested operations
-const resaveChildren: CollectionAfterChangeHook = async ({ collection, doc, req }) => {
+const resaveChildren: CollectionAfterChangeHook = async ({
+  collection,
+  doc,
+  req,
+}) => {
   // Find children - pass req
   const children = await req.payload.find({
     collection: 'children',
@@ -81,7 +85,11 @@ const resaveChildren: CollectionAfterChangeHook = async ({ collection, doc, req 
 }
 
 // ❌ WRONG: Missing req breaks transaction
-const brokenHook: CollectionAfterChangeHook = async ({ collection, doc, req }) => {
+const brokenHook: CollectionAfterChangeHook = async ({
+  collection,
+  doc,
+  req,
+}) => {
   const children = await req.payload.find({
     collection: 'children',
     where: { parent: { equals: doc.id } },

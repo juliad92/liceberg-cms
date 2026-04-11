@@ -402,7 +402,10 @@ export const Posts: CollectionConfig = {
 const posts = await payload.find({
   collection: 'posts',
   where: {
-    and: [{ status: { equals: 'published' } }, { 'author.name': { contains: 'john' } }],
+    and: [
+      { status: { equals: 'published' } },
+      { 'author.name': { contains: 'john' } },
+    ],
   },
   depth: 2, // Populate relationships
   limit: 10,

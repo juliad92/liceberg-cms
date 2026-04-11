@@ -1,7 +1,10 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 import stripe from '../lib/stripe'
 
-export const syncToStripe: CollectionBeforeChangeHook = async ({ data, operation }) => {
+export const syncToStripe: CollectionBeforeChangeHook = async ({
+  data,
+  operation,
+}) => {
   try {
     const priceInCents = Math.round(data.price * 100)
 

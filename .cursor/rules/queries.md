@@ -168,7 +168,7 @@ const queryString = stringify(
     depth: 2,
     limit: 10,
   },
-  { addQueryPrefix: true },
+  { addQueryPrefix: true }
 )
 
 const response = await fetch(`https://api.example.com/api/posts${queryString}`)
@@ -193,7 +193,11 @@ POST   /api/globals/{slug}         - Update global
 
 ```graphql
 query {
-  Posts(where: { status: { equals: published } }, limit: 10, sort: "-createdAt") {
+  Posts(
+    where: { status: { equals: published } }
+    limit: 10
+    sort: "-createdAt"
+  ) {
     docs {
       id
       title
