@@ -221,6 +221,10 @@ export interface Product {
   title: string;
   slug: string;
   type: 'issue' | 'subscription' | 'pack' | 'poster';
+  /**
+   * Obligatoire pour les abonnements Stripe
+   */
+  interval?: ('3_months' | 'year') | null;
   price: number;
   originalPrice?: number | null;
   badge?: string | null;
@@ -558,6 +562,7 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   type?: T;
+  interval?: T;
   price?: T;
   originalPrice?: T;
   badge?: T;

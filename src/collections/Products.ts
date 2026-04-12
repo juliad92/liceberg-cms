@@ -49,6 +49,30 @@ const Products: CollectionConfig = {
       required: true,
     },
     {
+      name: 'interval',
+      type: 'select',
+      label: 'Fréquence de facturation',
+      admin: {
+        condition: (data) => data?.type === 'subscription',
+        description: 'Obligatoire pour les abonnements Stripe',
+      },
+      options: [
+        { label: 'Tous les 3 mois', value: '3_months' },
+        { label: 'Tous les ans', value: 'year' },
+      ],
+      // On rend le champ requis seulement si c'est un abonnement
+      hooks: {
+        beforeValidate: [
+          ({ value, data }) => {
+            if (data?.type === 'subscription' && !value) {
+              return '3_months' // Valeur par défaut si oubliée
+            }
+            return value
+          },
+        ],
+      },
+    },
+    {
       name: 'price',
       type: 'number',
       required: true, // in euros, ex: 19

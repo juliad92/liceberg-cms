@@ -28,7 +28,10 @@ export const syncToStripe: CollectionBeforeChangeHook = async ({
         unit_amount: priceInCents,
         currency: 'eur',
         ...(data.type === 'subscription' && {
-          recurring: { interval: 'month', interval_count: 3 },
+          recurring: {
+            interval: data.interval === 'year' ? 'year' : 'month',
+            interval_count: data.interval === 'year' ? 1 : 3,
+          },
         }),
       })
 
