@@ -151,12 +151,12 @@ const Products: CollectionConfig = {
     {
       name: 'stripeProductId',
       type: 'text',
-      // admin: { readOnly: true }, // editors can't edit this manually
+      admin: { readOnly: true }, // editors can't edit this manually
     },
     {
       name: 'stripePriceId',
       type: 'text',
-      // admin: { readOnly: true },
+      admin: { readOnly: true },
     },
   ],
 }
