@@ -107,7 +107,13 @@ const Accounts: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'stripeCustomerId', 'createdAt'],
+    defaultColumns: [
+      'email',
+      'name',
+      'firstName',
+      'stripeCustomerId',
+      'createdAt',
+    ],
   },
   access: {
     create: () => true, // ← inscription publique depuis le site
@@ -118,6 +124,10 @@ const Accounts: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      type: 'text',
+    },
+    {
+      name: 'firstName',
       type: 'text',
     },
     {

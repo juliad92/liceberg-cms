@@ -184,6 +184,7 @@ export interface User {
 export interface Account {
   id: string;
   name?: string | null;
+  firstName?: string | null;
   /**
    * Rempli automatiquement après le premier achat
    */
@@ -531,6 +532,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface AccountsSelect<T extends boolean = true> {
   name?: T;
+  firstName?: T;
   stripeCustomerId?: T;
   resetToken?: T;
   resetTokenExpiry?: T;
