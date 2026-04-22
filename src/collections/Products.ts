@@ -30,12 +30,18 @@ const Products: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true, // ex: "Le numéro 4"
+      admin: {
+        description: "ex: 'Le numéro 4'",
+      },
     },
     {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true, // ex: "numero-4" — used in the URL
+      admin: {
+        description: "ex: 'numero-4' — used in the URL",
+      },
     },
     {
       name: 'type',
@@ -83,11 +89,17 @@ const Products: CollectionConfig = {
     },
     {
       name: 'badge',
-      type: 'text', // ex: "OFFRE limitée jusqu'au 31 mars"
+      type: 'text',
+      admin: {
+        description: "ex : OFFRE limitée jusqu'au 31 mars",
+      },
     },
     {
       name: 'description',
-      type: 'richText', // the editorial text below the price
+      type: 'richText',
+      admin: {
+        description: 'the editorial text for the product page',
+      },
     },
     {
       name: 'summary',
@@ -95,6 +107,7 @@ const Products: CollectionConfig = {
       label: 'Sommaire du numéro',
       admin: {
         description: 'Sommaire du numéro',
+        condition: (data) => data?.type === 'issue',
       },
       fields: [
         { name: 'page', type: 'text', required: true }, // "32"
@@ -102,16 +115,20 @@ const Products: CollectionConfig = {
         { name: 'title', type: 'text', required: true }, // "À Plessé..."
       ],
     },
-    { name: 'issueNumber', type: 'text', admin: { description: 'ex: 4' } },
+    {
+      name: 'issueNumber',
+      type: 'text',
+      admin: {
+        description: 'Obligatoire pour les revues. Ex: 4',
+        condition: (data) => data?.type === 'issue',
+      },
+    },
     {
       name: 'features',
-      type: 'array', // the bullet points list ("Vous recevez...")
-      fields: [
-        {
-          name: 'text',
-          type: 'text',
-        },
-      ],
+      type: 'richText',
+      admin: {
+        description: 'the content below the product card ("Vous recevez...")',
+      },
     },
     {
       name: 'images',

@@ -73,6 +73,7 @@ export interface Config {
     products: Product;
     orders: Order;
     founders: Founder;
+    articles: Article;
     faq: Faq;
     media: Media;
     'newsletter-subscribers': NewsletterSubscriber;
@@ -88,6 +89,7 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     founders: FoundersSelect<false> | FoundersSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
@@ -219,7 +221,13 @@ export interface Account {
  */
 export interface Product {
   id: string;
+  /**
+   * ex: 'Le numéro 4'
+   */
   title: string;
+  /**
+   * ex: 'numero-4' — used in the URL
+   */
   slug: string;
   type: 'issue' | 'subscription' | 'pack' | 'poster';
   /**
@@ -228,7 +236,13 @@ export interface Product {
   interval?: ('3_months' | 'year') | null;
   price: number;
   originalPrice?: number | null;
+  /**
+   * ex : OFFRE limitée jusqu'au 31 mars
+   */
   badge?: string | null;
+  /**
+   * the editorial text for the product page
+   */
   description?: {
     root: {
       type: string;
@@ -256,15 +270,27 @@ export interface Product {
       }[]
     | null;
   /**
-   * ex: 4
+   * Obligatoire pour les revues. Ex: 4
    */
   issueNumber?: string | null;
-  features?:
-    | {
-        text?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * the content below the product card ("Vous recevez...")
+   */
+  features?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   images?:
     | {
         image?: (string | null) | Media;
@@ -357,6 +383,18 @@ export interface Founder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: string;
+  title: string;
+  article?: string | null;
+  photo?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq".
  */
 export interface Faq {
@@ -435,6 +473,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'founders';
         value: string | Founder;
+      } | null)
+    | ({
+        relationTo: 'articles';
+        value: string | Article;
       } | null)
     | ({
         relationTo: 'faq';
@@ -578,12 +620,7 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   issueNumber?: T;
-  features?:
-    | T
-    | {
-        text?: T;
-        id?: T;
-      };
+  features?: T;
   images?:
     | T
     | {
@@ -643,6 +680,17 @@ export interface FoundersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   bio?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  article?: T;
   photo?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -11,6 +11,7 @@ import { Media } from './collections/Media'
 import Products from './collections/Products'
 import Orders from './collections/Orders'
 import Founders from './collections/Founders'
+import Articles from './collections/Articles'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
@@ -44,6 +45,7 @@ export default buildConfig({
     Products,
     Orders,
     Founders,
+    Articles,
     FAQ,
     Media,
     NewsletterSubscribers,
