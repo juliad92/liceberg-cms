@@ -12,7 +12,7 @@ const Articles: CollectionConfig = {
     { name: 'title', type: 'text', required: true },
     { name: 'article', type: 'textarea' },
     {
-      name: 'photo',
+      name: 'images',
       type: 'upload',
       relationTo: 'media',
       filterOptions: {

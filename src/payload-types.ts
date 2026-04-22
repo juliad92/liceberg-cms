@@ -389,7 +389,7 @@ export interface Article {
   id: string;
   title: string;
   article?: string | null;
-  photo?: (string | null) | Media;
+  images?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -691,7 +691,7 @@ export interface FoundersSelect<T extends boolean = true> {
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
   article?: T;
-  photo?: T;
+  images?: T;
   updatedAt?: T;
   createdAt?: T;
 }
