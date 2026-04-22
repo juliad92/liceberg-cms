@@ -12,7 +12,7 @@ const Orders: CollectionConfig = {
     useAsTitle: 'customerEmail',
     defaultColumns: [
       'customerEmail',
-      'productTitle',
+      'productTitles',
       'total',
       'status',
       'orderType',
@@ -32,7 +32,7 @@ const Orders: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'productTitle',
+      name: 'productTitles',
       type: 'text',
       admin: { readOnly: true },
     },

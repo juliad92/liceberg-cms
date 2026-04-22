@@ -338,7 +338,7 @@ export interface Order {
   id: string;
   customerEmail: string;
   customerName?: string | null;
-  productTitle?: string | null;
+  productTitles?: string | null;
   stripeSessionId?: string | null;
   items?:
     | {
@@ -627,7 +627,7 @@ export interface ProductsSelect<T extends boolean = true> {
 export interface OrdersSelect<T extends boolean = true> {
   customerEmail?: T;
   customerName?: T;
-  productTitle?: T;
+  productTitles?: T;
   stripeSessionId?: T;
   items?:
     | T
