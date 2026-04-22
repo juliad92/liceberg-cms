@@ -73,7 +73,6 @@ export interface Config {
     products: Product;
     orders: Order;
     founders: Founder;
-    articles: Article;
     faq: Faq;
     media: Media;
     'newsletter-subscribers': NewsletterSubscriber;
@@ -89,7 +88,6 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     founders: FoundersSelect<false> | FoundersSelect<true>;
-    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
@@ -383,18 +381,6 @@ export interface Founder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "articles".
- */
-export interface Article {
-  id: string;
-  title: string;
-  article?: string | null;
-  images?: (string | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq".
  */
 export interface Faq {
@@ -473,10 +459,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'founders';
         value: string | Founder;
-      } | null)
-    | ({
-        relationTo: 'articles';
-        value: string | Article;
       } | null)
     | ({
         relationTo: 'faq';
@@ -681,17 +663,6 @@ export interface FoundersSelect<T extends boolean = true> {
   role?: T;
   bio?: T;
   photo?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "articles_select".
- */
-export interface ArticlesSelect<T extends boolean = true> {
-  title?: T;
-  article?: T;
-  images?: T;
   updatedAt?: T;
   createdAt?: T;
 }

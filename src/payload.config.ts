@@ -45,7 +45,7 @@ export default buildConfig({
     Products,
     Orders,
     Founders,
-    Articles,
+    // Articles,
     FAQ,
     Media,
     NewsletterSubscribers,
