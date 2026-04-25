@@ -11,10 +11,11 @@ import { Media } from './collections/Media'
 import Products from './collections/Products'
 import Orders from './collections/Orders'
 import Founders from './collections/Founders'
-import Articles from './collections/Articles'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
+import { Posts } from './collections/Posts'
+import { Categories } from './collections/Categories'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
@@ -22,19 +23,39 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    livePreview: {
+      // The iframe URL must resolve to a page that mounts useLivePreview / PostPreviewClient.
+      // Using /posts/preview/[slug] keeps the preview route separate from the public route.
+      url: ({ data, collectionConfig }) => {
+        const base =
+          process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        if (collectionConfig?.slug === 'posts') {
+          return `${base}/posts/preview/${data?.slug || '_'}`
+        }
+        return base
+      },
+      collections: ['posts'],
+      breakpoints: [
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
+      ],
+    },
   },
   cors: [
+    'http://localhost:3000',
     'http://localhost:3001',
     'https://liceberg-cms.vercel.app', // ← CMS itself
     'https://liceberg-web.vercel.app', // ← web frontend
   ],
   csrf: [
+    'http://localhost:3000',
     'http://localhost:3001',
     'https://liceberg-cms.vercel.app', // ← CMS itself
     'https://liceberg-web.vercel.app', // ← web frontend
@@ -45,10 +66,11 @@ export default buildConfig({
     Products,
     Orders,
     Founders,
-    // Articles,
     FAQ,
     Media,
     NewsletterSubscribers,
+    Posts,
+    Categories,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
