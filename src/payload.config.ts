@@ -32,13 +32,10 @@ export default buildConfig({
     livePreview: {
       // The iframe URL must resolve to a page that mounts useLivePreview / PostPreviewClient.
       // Using /posts/preview/[slug] keeps the preview route separate from the public route.
-      url: ({ data, collectionConfig }) => {
+      url: ({ data }) => {
         const base =
           process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-        if (collectionConfig?.slug === 'posts') {
-          return `${base}/posts/preview/${data?.slug || '_'}`
-        }
-        return base
+        return `${base}/posts/preview/${data?.slug || '_'}`
       },
       collections: ['posts'],
       breakpoints: [
