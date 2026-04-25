@@ -16,6 +16,7 @@ import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
 import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
+import { AgendaEvents } from './collections/AgendaEvents'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
@@ -68,6 +69,7 @@ export default buildConfig({
     NewsletterSubscribers,
     Posts,
     Categories,
+    AgendaEvents,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

@@ -78,6 +78,7 @@ export interface Config {
     'newsletter-subscribers': NewsletterSubscriber;
     posts: Post;
     categories: Category;
+    'agenda-events': AgendaEvent;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -95,6 +96,7 @@ export interface Config {
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'agenda-events': AgendaEventsSelect<false> | AgendaEventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -506,6 +508,87 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * Manage events displayed on the agenda page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agenda-events".
+ */
+export interface AgendaEvent {
+  id: string;
+  title: string;
+  /**
+   * URL-friendly identifier (auto-fill or set manually).
+   */
+  slug?: string | null;
+  /**
+   * Category tag shown on the event card.
+   */
+  eventType?:
+    | ('festival' | 'exposition' | 'rencontre' | 'concert' | 'projection' | 'lancement' | 'conference' | 'autre')
+    | null;
+  startDate: string;
+  /**
+   * Leave blank if end time is same day as start.
+   */
+  endDate?: string | null;
+  location?: {
+    venueName?: string | null;
+    city?: string | null;
+    postalCode?: string | null;
+    /**
+     * Street address if needed for maps or display.
+     */
+    address?: string | null;
+    mapsUrl?: string | null;
+  };
+  /**
+   * Display this event as the large featured card on the agenda page.
+   */
+  featured?: boolean | null;
+  /**
+   * Used on the featured card. Recommended: 600×700px.
+   */
+  coverImage?: (string | null) | Media;
+  /**
+   * Small keyword tags shown on the featured card (e.g. "festival", "exposition", "concert").
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Button shown on the featured card.
+   */
+  cta?: {
+    label?: string | null;
+    url?: string | null;
+    openInNewTab?: boolean | null;
+  };
+  /**
+   * Extended content for the event detail page.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  status?: ('published' | 'draft' | 'cancelled') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -568,6 +651,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'agenda-events';
+        value: string | AgendaEvent;
       } | null);
   globalSlug?: string | null;
   user:
@@ -842,6 +929,45 @@ export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agenda-events_select".
+ */
+export interface AgendaEventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  eventType?: T;
+  startDate?: T;
+  endDate?: T;
+  location?:
+    | T
+    | {
+        venueName?: T;
+        city?: T;
+        postalCode?: T;
+        address?: T;
+        mapsUrl?: T;
+      };
+  featured?: T;
+  coverImage?: T;
+  tags?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  cta?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        openInNewTab?: T;
+      };
+  description?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
