@@ -138,7 +138,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'categories',
       type: 'relationship',
-      relationTo: 'categories',
+      relationTo: 'categories' as any,
       hasMany: true,
       admin: {
         position: 'sidebar',

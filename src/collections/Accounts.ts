@@ -8,7 +8,7 @@ const Accounts: CollectionConfig = {
       // Payload sends this email automatically when hitting /api/accounts/forgot-password
       // Customize the email template here
       generateEmailHTML: async ({ req, token, user }: any) => {
-        const resetURL = `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/auth/reset-password?token=${token}`
+        const resetURL = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${token}`
 
         return `
           <!DOCTYPE html>
