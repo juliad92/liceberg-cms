@@ -330,6 +330,14 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Code couleur Hex pour le fond de la page produit (ex : #9b8ec4)
+   */
+  backgroundColor?: string | null;
+  /**
+   * Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff
+   */
+  policeColor?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -820,6 +828,8 @@ export interface ProductsSelect<T extends boolean = true> {
   stripeProductId?: T;
   stripePriceId?: T;
   productPresentation?: T;
+  backgroundColor?: T;
+  policeColor?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -183,6 +183,45 @@ const Products: CollectionConfig = {
           'sous le bloc « Au sommaire du numéro » et avant le bloc de lecture du pdf, bloc de contenus avec photo et texte pour présenter les articles - type newsletter',
       },
     },
+
+    {
+      name: 'backgroundColor',
+      type: 'text',
+      admin: {
+        description:
+          'Code couleur Hex pour le fond de la page produit (ex : #9b8ec4)',
+      },
+      validate: (val: string | string[] | null | undefined) => {
+        // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
+        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+        if (typeof val === 'string') {
+          const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/
+          if (hexRegex.test(val)) {
+            return true
+          }
+        }
+        return "La couleur doit être un code hexadécimal valide commençant par '#' (ex: #FFFFFF ou #000)"
+      },
+    },
+
+    {
+      name: 'policeColor',
+      type: 'text',
+      admin: {
+        description:
+          'Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff',
+      },
+      validate: (val: string | string[] | null | undefined) => {
+        // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
+        if (typeof val === 'string') {
+          const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/
+          if (hexRegex.test(val)) {
+            return true
+          }
+        }
+        return "La couleur doit être un code hexadécimal valide commençant par '#' (ex: #FFFFFF ou #000)"
+      },
+    },
   ],
 }
 
