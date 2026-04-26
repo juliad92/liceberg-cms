@@ -18,9 +18,9 @@ export const AgendaEvents: CollectionConfig = {
     description: 'Manage events displayed on the agenda page.',
   },
   defaultSort: 'startDate',
-  access: {
-    read: () => true,
-  },
+  // access: {
+  //   read: () => true,
+  // },
   fields: [
     // ─── Core Info ───────────────────────────────────────────────
     {
