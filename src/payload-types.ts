@@ -312,6 +312,24 @@ export interface Product {
     | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
+  /**
+   * sous le bloc « Au sommaire du numéro » et avant le bloc de lecture du pdf, bloc de contenus avec photo et texte pour présenter les articles - type newsletter
+   */
+  productPresentation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -801,6 +819,7 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   stripeProductId?: T;
   stripePriceId?: T;
+  productPresentation?: T;
   updatedAt?: T;
   createdAt?: T;
 }

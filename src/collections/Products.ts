@@ -175,6 +175,14 @@ const Products: CollectionConfig = {
       type: 'text',
       admin: { readOnly: true },
     },
+    {
+      name: 'productPresentation',
+      type: 'richText',
+      admin: {
+        description:
+          'sous le bloc « Au sommaire du numéro » et avant le bloc de lecture du pdf, bloc de contenus avec photo et texte pour présenter les articles - type newsletter',
+      },
+    },
   ],
 }
 
