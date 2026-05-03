@@ -163,7 +163,14 @@ const Products: CollectionConfig = {
         },
       ],
     },
-
+    {
+      name: 'statusPublication',
+      type: 'select', // dropdown in the admin UI
+      options: [
+        { label: 'Non publié sur le site', value: 'unpublished' },
+        { label: 'Publié sur le site', value: 'published' },
+      ],
+    },
     // Stripe fields — filled automatically by our hook later
     {
       name: 'stripeProductId',
@@ -192,6 +199,8 @@ const Products: CollectionConfig = {
           'Code couleur Hex pour le fond de la page produit (ex : #9b8ec4)',
       },
       validate: (val: string | string[] | null | undefined) => {
+        if (!val) return true
+
         // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
         const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
         if (typeof val === 'string') {
@@ -209,9 +218,10 @@ const Products: CollectionConfig = {
       type: 'text',
       admin: {
         description:
-          'Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff',
+          'Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff)',
       },
       validate: (val: string | string[] | null | undefined) => {
+        if (!val) return true
         // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
         if (typeof val === 'string') {
           const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/

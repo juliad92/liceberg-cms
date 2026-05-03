@@ -310,6 +310,7 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  statusPublication?: ('unpublished' | 'published') | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
   /**
@@ -335,7 +336,7 @@ export interface Product {
    */
   backgroundColor?: string | null;
   /**
-   * Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff
+   * Code couleur Hex pour la police du texte du fond de la page produit (ex : #ffffff)
    */
   policeColor?: string | null;
   updatedAt: string;
@@ -825,6 +826,7 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  statusPublication?: T;
   stripeProductId?: T;
   stripePriceId?: T;
   productPresentation?: T;
