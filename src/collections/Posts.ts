@@ -26,25 +26,25 @@ export const Posts: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
-  // access: {
-  //   read: ({ req: { user } }) => {
-  //     // Published posts are public; drafts only for logged-in users
-  //     if (user) return true
-  //     return {
-  //       _status: { equals: 'published' },
-  //     }
-  //   },
-  //   create: ({ req: { user } }) => Boolean(user),
-  //   update: ({ req: { user } }) => Boolean(user),
-  //   delete: ({ req: { user } }) => Boolean(user),
-  // },
-  // While validating, only visible by
   access: {
-    read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+    read: ({ req: { user } }) => {
+      // Published posts are public; drafts only for logged-in users
+      if (user) return true
+      return {
+        _status: { equals: 'published' },
+      }
+    },
+    create: ({ req: { user } }) => Boolean(user),
+    update: ({ req: { user } }) => Boolean(user),
+    delete: ({ req: { user } }) => Boolean(user),
   },
+  // While validating, only visible by
+  // access: {
+  //   read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  // },
   fields: [
     // ── Title ──────────────────────────────────────────────
     {

@@ -18,6 +18,8 @@ import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { AgendaEvents } from './collections/AgendaEvents'
 
+import { Pages } from './collections/Pages'
+
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 const filename = fileURLToPath(import.meta.url)
@@ -70,6 +72,7 @@ export default buildConfig({
     Posts,
     Categories,
     AgendaEvents,
+    Pages,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

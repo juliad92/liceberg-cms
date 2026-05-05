@@ -7,15 +7,15 @@ export const metadata = {
   title: 'Payload Blank Template',
 }
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
-
+export default function FrontendLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body>
-        <main>{children}</main>
-        <Analytics />
-      </body>
-    </html>
+    <div style={{ backgroundColor: 'white', color: '#1a1a1a' }}>
+      <main>{children}</main>
+      {/* <Analytics /> */}
+    </div>
   )
 }

@@ -18,6 +18,19 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN', // allows Payload's iframe on same origin
+          },
+        ],
+      },
+    ]
+  },
 }
 export default withPayload(nextConfig)
 //export default nextConfig

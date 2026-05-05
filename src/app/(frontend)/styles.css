@@ -162,3 +162,32 @@ svg {
     }
   }
 }
+
+.prose-liceberg h1 {
+  font-family: 'YourDisplayFont', sans-serif; /* match your font */
+  color: #1a4a5a;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.prose-liceberg h2 {
+  font-family: 'YourDisplayFont', sans-serif;
+  color: #1a4a5a;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-liceberg p {
+  color: #1a1a1a;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.prose-liceberg a {
+  color: inherit;
+  text-decoration: underline;
+}
