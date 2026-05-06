@@ -101,9 +101,9 @@ export default buildConfig({
       },
     ],
   },
-  // plugins: [
-  //   importExportPlugin({
-  //     collections: [{ slug: 'orders' }],
-  //   }),
-  // ],
+  plugins: [
+    importExportPlugin({
+      collections: [{ slug: 'orders' }],
+    }),
+  ],
 })
