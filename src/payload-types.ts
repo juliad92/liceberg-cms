@@ -295,6 +295,14 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Image affichée sur la home page et la page produit
+   */
+  coverImage?: (string | null) | Media;
+  /**
+   * Image affichée dans la ProductCard
+   */
+  cardImage?: (string | null) | Media;
   images?:
     | {
         image?: (string | null) | Media;
@@ -446,6 +454,7 @@ export interface NewsletterSubscriber {
   id: string;
   email: string;
   subscribedAt?: string | null;
+  subscribed?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -814,6 +823,8 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   issueNumber?: T;
   features?: T;
+  coverImage?: T;
+  cardImage?: T;
   images?:
     | T
     | {
@@ -919,6 +930,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface NewsletterSubscribersSelect<T extends boolean = true> {
   email?: T;
   subscribedAt?: T;
+  subscribed?: T;
   updatedAt?: T;
   createdAt?: T;
 }

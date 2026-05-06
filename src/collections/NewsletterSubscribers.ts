@@ -6,8 +6,9 @@ const NewsletterSubscribers: CollectionConfig = {
     create: () => true, // ← anyone can read products
     // Seuls les admins peuvent voir la liste ou modifier
     //   read: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
-    delete: ({ req: { user } }) => Boolean(user),
+    update: () => true,
+    delete: () => true,
+    read: () => true,
   },
   admin: {
     useAsTitle: 'email',
@@ -24,6 +25,10 @@ const NewsletterSubscribers: CollectionConfig = {
     {
       name: 'subscribedAt',
       type: 'date',
+    },
+    {
+      name: 'subscribed',
+      type: 'checkbox',
     },
   ],
 }

@@ -131,6 +131,30 @@ const Products: CollectionConfig = {
       },
     },
     {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Image principale (home + page produit)',
+      admin: {
+        description: 'Image affichée sur la home page et la page produit',
+      },
+      filterOptions: {
+        mimeType: { not_like: 'application/pdf' },
+      },
+    },
+    {
+      name: 'cardImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Image carte produit',
+      admin: {
+        description: 'Image affichée dans la ProductCard',
+      },
+      filterOptions: {
+        mimeType: { not_like: 'application/pdf' },
+      },
+    },
+    {
       name: 'images',
       type: 'array',
       fields: [
