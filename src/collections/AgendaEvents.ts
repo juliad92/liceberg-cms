@@ -6,21 +6,21 @@ export const AgendaEvents: CollectionConfig = {
     singular: 'Agenda Event',
     plural: 'Agenda Events',
   },
-  access: {
-    read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-    delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  },
+  // access: {
+  //   read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  //   delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
+  // },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'startDate', 'location', 'eventType', 'featured'],
     description: 'Manage events displayed on the agenda page.',
   },
   defaultSort: 'startDate',
-  // access: {
-  //   read: () => true,
-  // },
+  access: {
+    read: () => true,
+  },
   fields: [
     // ─── Core Info ───────────────────────────────────────────────
     {
