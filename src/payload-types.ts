@@ -319,6 +319,10 @@ export interface Product {
       }[]
     | null;
   statusPublication?: ('unpublished' | 'published') | null;
+  /**
+   * Ordre d'affichage sur la home page (1 = dernier, 2 = avant-dernier, etc...)
+   */
+  displayOrder?: number | null;
   stripeProductId?: string | null;
   stripePriceId?: string | null;
   /**
@@ -838,6 +842,7 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   statusPublication?: T;
+  displayOrder?: T;
   stripeProductId?: T;
   stripePriceId?: T;
   productPresentation?: T;

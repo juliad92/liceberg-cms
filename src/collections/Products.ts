@@ -195,6 +195,14 @@ const Products: CollectionConfig = {
         { label: 'Publié sur le site', value: 'published' },
       ],
     },
+    {
+      name: 'displayOrder',
+      type: 'number',
+      admin: {
+        description:
+          "Ordre d'affichage sur la home page (1 = dernier, 2 = avant-dernier, etc...)",
+      },
+    },
     // Stripe fields — filled automatically by our hook later
     {
       name: 'stripeProductId',
