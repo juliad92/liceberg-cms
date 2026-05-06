@@ -93,9 +93,9 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    importExportPlugin({
-      collections: [{ slug: 'orders' }],
-    }),
-  ],
+  // plugins: [
+  //   importExportPlugin({
+  //     collections: [{ slug: 'orders' }],
+  //   }),
+  // ],
 })
