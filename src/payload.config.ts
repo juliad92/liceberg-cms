@@ -93,6 +93,14 @@ export default buildConfig({
     },
   }),
   sharp,
+  jobs: {
+    autoRun: [
+      {
+        cron: '*/5 * * * *', // Check every 5 minutes
+        queue: 'default',
+      },
+    ],
+  },
   // plugins: [
   //   importExportPlugin({
   //     collections: [{ slug: 'orders' }],
