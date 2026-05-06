@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { importExportPlugin } from '@payloadcms/plugin-import-export'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -92,12 +93,9 @@ export default buildConfig({
     },
   }),
   sharp,
+  plugins: [
+    importExportPlugin({
+      collections: [{ slug: 'orders' }],
+    }),
+  ],
 })
-
-/*
-
-export default buildConfig({
-  serverURL: 'http://localhost:3000',
-  editor: lexicalEditor(),
-  
-*/
