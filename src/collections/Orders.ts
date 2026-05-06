@@ -10,15 +10,7 @@ const Orders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'customerEmail',
-    defaultColumns: [
-      'customerEmail',
-      'productTitles',
-      'total',
-      'status',
-      'orderType',
-      'startingIssue',
-      'createdAt',
-    ],
+    defaultColumns: ['customerEmail', 'total', 'status', 'createdAt'],
   },
 
   fields: [
