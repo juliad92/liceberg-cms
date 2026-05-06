@@ -15,7 +15,7 @@ import Founders from './collections/Founders'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
-import { Posts } from './collections/Posts'
+import { Posts } from '@/collections/Posts'
 import { Categories } from './collections/Categories'
 import { AgendaEvents } from './collections/AgendaEvents'
 
