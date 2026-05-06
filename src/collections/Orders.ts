@@ -5,7 +5,7 @@ const Orders: CollectionConfig = {
   access: {
     create: () => true, // ← allow Stripe webhook to create orders
     read: () => true, // ← false only admins can read orders
-    update: () => false,
+    update: () => true, // ← allow Stripe webhook to update orders
     delete: () => false,
   },
   admin: {
