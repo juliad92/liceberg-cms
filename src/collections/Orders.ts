@@ -4,9 +4,47 @@ import { isAdminUser } from '../lib/isAdminUser'
 const Orders: CollectionConfig = {
   slug: 'orders',
   access: {
-    create: ({ req: { user } }) => isAdminUser(user),
-    read: ({ req: { user } }) => isAdminUser(user),
-    update: ({ req: { user } }) => isAdminUser(user),
+    create: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      return false
+    },
+    read: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      if (!user?.email) return false
+      return {
+        customerEmail: {
+          equals: user.email,
+        },
+      }
+    },
+
+    update: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      // Allow updates via API Key (for Stripe Webhook)
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      return false
+    },
+
     delete: () => false,
   },
   admin: {
