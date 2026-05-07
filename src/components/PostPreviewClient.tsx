@@ -19,14 +19,14 @@ interface Props {
   slug: string
 }
 
-export function PostPreviewClient({ slug }: Props) {
+export function PostPreviewClient({ slug: _slug }: Props) {
   const serverURL =
     process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
   // `initialData` can be empty — Payload will push the full document
   // as soon as the iframe signals it is ready.
   const { data, isLoading } = useLivePreview({
-    serverURL: 'http://localhost:3000',
+    serverURL,
     depth: 2,
     initialData: {} as any,
   })

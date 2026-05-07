@@ -55,6 +55,7 @@ export const syncToStripe: CollectionBeforeChangeHook = async ({
     }
   } catch (error) {
     console.error('❌ Stripe sync failed:', error)
+    throw error
   }
 
   return data

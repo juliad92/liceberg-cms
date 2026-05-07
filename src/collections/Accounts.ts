@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const Accounts: CollectionConfig = {
   slug: 'accounts',
@@ -116,10 +117,18 @@ const Accounts: CollectionConfig = {
     ],
   },
   access: {
-    create: () => true, // ← inscription publique depuis le site
-    read: () => true, // false ?
-    update: () => true,
-    delete: () => true,
+    create: () => true,
+    read: ({ req: { user } }) => {
+      if (isAdminUser(user)) return true
+      if (!user?.id) return false
+      return { id: { equals: user?.id } }
+    },
+    update: ({ req: { user } }) => {
+      if (isAdminUser(user)) return true
+      if (!user?.id) return false
+      return { id: { equals: user?.id } }
+    },
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     {
@@ -141,11 +150,17 @@ const Accounts: CollectionConfig = {
     {
       name: 'resetToken',
       type: 'text',
+      access: {
+        read: ({ req: { user } }) => isAdminUser(user),
+      },
       admin: { hidden: true },
     },
     {
       name: 'resetTokenExpiry',
       type: 'date',
+      access: {
+        read: ({ req: { user } }) => isAdminUser(user),
+      },
       admin: { hidden: true },
     },
   ],

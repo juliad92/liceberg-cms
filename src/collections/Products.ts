@@ -1,12 +1,14 @@
 import { CollectionConfig } from 'payload'
 import { syncToStripe } from '../hooks/syncToStripe'
-import { Analytics } from '@vercel/analytics/next'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const Products: CollectionConfig = {
   slug: 'products',
   access: {
-    read: () => true, // ← anyone can read products
-    update: () => true,
+    read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   admin: {
     useAsTitle: 'title', // shows the product title in the admin list

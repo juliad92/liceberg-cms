@@ -1,11 +1,12 @@
 import { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const Orders: CollectionConfig = {
   slug: 'orders',
   access: {
-    create: () => true, // ← allow Stripe webhook to create orders
-    read: () => true, // ← false only admins can read orders
-    update: () => true, // ← allow Stripe webhook to update orders
+    create: ({ req: { user } }) => isAdminUser(user),
+    read: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
     delete: () => false,
   },
   admin: {
