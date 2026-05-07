@@ -38,13 +38,6 @@ export const Posts: CollectionConfig = {
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),
   },
-  // While validating, only visible by
-  // access: {
-  //   read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  //   create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  //   update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  //   delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  // },
   fields: [
     // ── Title ──────────────────────────────────────────────
     {
