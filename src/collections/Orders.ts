@@ -24,12 +24,16 @@ const Orders: CollectionConfig = {
       ) {
         return true
       }
-      if (!user?.email) return false
-      return {
-        customerEmail: {
-          equals: user.email,
-        },
+      // Account token — Payload populates req.user from the auth collection
+      // that matches the token, so we check the collection slug
+      if (user?.collection === 'accounts' && user?.email) {
+        return {
+          customerEmail: { equals: user.email },
+        }
       }
+      if (!user?.email) return false
+
+      return false
     },
 
     update: ({ req }) => {
