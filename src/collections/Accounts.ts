@@ -116,16 +116,81 @@ const Accounts: CollectionConfig = {
       'createdAt',
     ],
   },
+  endpoints: [
+    {
+      path: '/me/stripe-customer-id',
+      method: 'get',
+      handler: async (req) => {
+        const { user } = req
+        if (!user?.id) {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        // In some auth flows `collection` is not present on req.user.
+        // If present and not accounts, reject explicitly.
+        if (
+          'collection' in user &&
+          user.collection &&
+          user.collection !== 'accounts'
+        ) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
+        // Prefer the authenticated user payload, then fallback to a guarded read.
+        if (
+          typeof user.stripeCustomerId === 'string' &&
+          user.stripeCustomerId.length > 0
+        ) {
+          return Response.json({ stripeCustomerId: user.stripeCustomerId })
+        }
+
+        let account: { stripeCustomerId?: string | null } | null = null
+        try {
+          account = await req.payload.findByID({
+            collection: 'accounts',
+            id: user.id,
+            depth: 0,
+            overrideAccess: false,
+            user,
+            select: {
+              stripeCustomerId: true,
+            },
+          })
+        } catch {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        return Response.json({
+          stripeCustomerId: account?.stripeCustomerId ?? null,
+        })
+      },
+    },
+  ],
   access: {
     create: () => true,
-    read: ({ req: { user } }) => {
+    read: ({ req }) => {
+      const { user } = req
       if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+
       if (!user?.id) return false
       return { id: { equals: user?.id } }
     },
-    update: ({ req: { user } }) => {
+    update: ({ req }) => {
+      const { user } = req
       if (isAdminUser(user)) return true
       if (!user?.id) return false
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
       return { id: { equals: user?.id } }
     },
     delete: ({ req: { user } }) => isAdminUser(user),
