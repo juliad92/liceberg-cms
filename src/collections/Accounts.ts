@@ -73,67 +73,8 @@ const isAccountsAuthRequest = (req: {
   })
 }
 
-const getRequestDebugInfo = (req: {
-  method?: string
-  url?: string | URL
-  originalUrl?: string
-  path?: string
-  nextUrl?: { pathname?: string }
-  headers: { get: (key: string) => string | null }
-}) => {
-  const fromURL =
-    typeof req.url === 'string'
-      ? new URL(req.url, process.env.PAYLOAD_PUBLIC_SERVER_URL).pathname
-      : req.url?.pathname
-  const cookieHeader = req.headers.get('cookie') || ''
-
-  return {
-    method: req.method,
-    path: req.path || null,
-    originalUrl: req.originalUrl || null,
-    nextPathname: req.nextUrl?.pathname || null,
-    parsedPathname: fromURL || null,
-    hasRefreshCookie: cookieHeader.includes('payload-refresh-token='),
-    hasTokenCookie: cookieHeader.includes('payload-token='),
-    isRefreshTokenRequest: isRefreshTokenRequest(req),
-  }
-}
-
 const Accounts: CollectionConfig = {
   slug: 'accounts',
-  hooks: {
-    beforeOperation: [
-      ({ operation, req }) => {
-        const reqAny = req as unknown as {
-          method?: string
-          url?: string | URL
-          path?: string
-          originalUrl?: string
-          nextUrl?: { pathname?: string }
-          headers: { get: (key: string) => string | null }
-          user?: { id?: string | number }
-        }
-        const fromURL =
-          typeof reqAny.url === 'string'
-            ? new URL(reqAny.url, process.env.PAYLOAD_PUBLIC_SERVER_URL).pathname
-            : reqAny.url?.pathname
-        const cookieHeader = reqAny.headers.get('cookie') || ''
-
-        req.payload.logger.info({
-          msg: '[accounts.beforeOperation]',
-          operation,
-          method: reqAny.method,
-          path: reqAny.path || null,
-          originalUrl: reqAny.originalUrl || null,
-          nextPathname: reqAny.nextUrl?.pathname || null,
-          parsedPathname: fromURL || null,
-          hasRefreshCookie: cookieHeader.includes('payload-refresh-token='),
-          hasTokenCookie: cookieHeader.includes('payload-token='),
-          hasUserId: Boolean(reqAny.user?.id),
-        })
-      },
-    ],
-  },
   auth: {
     useAPIKey: true,
     cookies: AUTH_COOKIE_POLICY,
@@ -302,19 +243,6 @@ const Accounts: CollectionConfig = {
     create: () => true,
     read: ({ req }) => {
       const { user } = req
-      req.payload.logger.info({
-        msg: '[accounts.access.read]',
-        ...getRequestDebugInfo(req),
-        hasUserId: Boolean(user?.id),
-        userCollection:
-          user && typeof user === 'object' && 'collection' in user
-            ? user.collection
-            : null,
-        isAdmin: isAdminUser(user),
-        hasApiKeyHeader:
-          req.headers.get('authorization') ===
-          `users API-Key ${process.env.PAYLOAD_API_KEY}`,
-      })
       if (isRefreshTokenRequest(req)) return true
       if (isAdminUser(user)) return true
       if (
@@ -329,19 +257,6 @@ const Accounts: CollectionConfig = {
     },
     update: ({ req }) => {
       const { user } = req
-      req.payload.logger.info({
-        msg: '[accounts.access.update]',
-        ...getRequestDebugInfo(req),
-        hasUserId: Boolean(user?.id),
-        userCollection:
-          user && typeof user === 'object' && 'collection' in user
-            ? user.collection
-            : null,
-        isAdmin: isAdminUser(user),
-        hasApiKeyHeader:
-          req.headers.get('authorization') ===
-          `users API-Key ${process.env.PAYLOAD_API_KEY}`,
-      })
       if (isRefreshTokenRequest(req)) return true
       if (isAdminUser(user)) return true
       if (
