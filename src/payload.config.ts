@@ -20,6 +20,7 @@ import { Categories } from './collections/Categories'
 import { AgendaEvents } from './collections/AgendaEvents'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { AUTH_ALLOWED_ORIGINS } from './lib/auth/sessionConfig'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -47,18 +48,8 @@ export default buildConfig({
       ],
     },
   },
-  cors: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://liceberg-cms.vercel.app', // ← CMS itself
-    'https://liceberg-web.vercel.app', // ← web frontend
-  ],
-  csrf: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://liceberg-cms.vercel.app', // ← CMS itself
-    'https://liceberg-web.vercel.app', // ← web frontend
-  ],
+  cors: AUTH_ALLOWED_ORIGINS,
+  csrf: AUTH_ALLOWED_ORIGINS,
   collections: [
     Users, // ← admins CMS uniquement
     Accounts, // ← abonnés du site
