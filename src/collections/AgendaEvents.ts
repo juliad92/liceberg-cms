@@ -1,3 +1,4 @@
+import { isAdminUser } from '@/lib/isAdminUser'
 import type { CollectionConfig } from 'payload'
 
 export const AgendaEvents: CollectionConfig = {
@@ -14,6 +15,9 @@ export const AgendaEvents: CollectionConfig = {
   defaultSort: 'startDate',
   access: {
     read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     // ─── Core Info ───────────────────────────────────────────────

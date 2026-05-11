@@ -1,9 +1,13 @@
+import { isAdminUser } from '@/lib/isAdminUser'
 import { CollectionConfig } from 'payload'
 
 const Founders: CollectionConfig = {
   slug: 'founders',
   access: {
     read: () => true, // ← anyone can read founders
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   admin: {
     useAsTitle: 'name',

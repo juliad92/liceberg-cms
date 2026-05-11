@@ -1,3 +1,4 @@
+import { isAdminUser } from '@/lib/isAdminUser'
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
@@ -34,9 +35,9 @@ export const Posts: CollectionConfig = {
         _status: { equals: 'published' },
       }
     },
-    create: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
-    delete: ({ req: { user } }) => Boolean(user),
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     // ── Title ──────────────────────────────────────────────
