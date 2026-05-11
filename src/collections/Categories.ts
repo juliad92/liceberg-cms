@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
