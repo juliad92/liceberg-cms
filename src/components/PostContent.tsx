@@ -2,18 +2,10 @@
 import { RichText } from '@/components/RichText'
 import Image from 'next/image'
 
-interface Post {
-  title: string
-  excerpt?: string
-  content: any
-  publishedAt?: string
-  author?: { name?: string; email: string }
-  categories?: Array<{ name: string; slug: string }>
-  featuredImage?: { url: string; alt: string; width: number; height: number }
-}
+import type { Post } from '@/payload-types'
 
 interface Props {
-  post: Post | null
+  post: Post
 }
 
 export function PostContent({ post }: Props) {
@@ -25,21 +17,35 @@ export function PostContent({ post }: Props) {
     )
   }
 
-  const { title, excerpt, content, publishedAt, author, categories, featuredImage } = post
-
+  const {
+    title,
+    excerpt,
+    content,
+    publishedAt,
+    author,
+    categories,
+    featuredImage,
+  } = post
+  const imageUrl = typeof featuredImage !== 'string' ? featuredImage?.url : null
+  const imageAlt = typeof featuredImage !== 'string' ? featuredImage?.alt : ''
   return (
     <article className="mx-auto max-w-3xl px-4 py-16">
       {/* Categories */}
       {categories && categories.length > 0 && (
         <div className="mb-4 flex gap-2">
-          {categories.map((cat) => (
-            <span
-              key={cat.slug}
-              className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
-            >
-              {cat.name}
-            </span>
-          ))}
+          {categories.map((cat) => {
+            // On vérifie si 'cat' est un objet (Category) et non une string (ID)
+            if (typeof cat === 'string') return null
+
+            return (
+              <span
+                key={cat.slug}
+                className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-..."
+              >
+                {cat.name}
+              </span>
+            )
+          })}
         </div>
       )}
 
@@ -70,14 +76,13 @@ export function PostContent({ post }: Props) {
       </div>
 
       {/* Featured Image */}
-      {featuredImage && (
+      {imageUrl && (
         <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-xl">
           <Image
-            src={featuredImage.url}
-            alt={featuredImage.alt}
+            src={imageUrl}
+            alt={imageAlt || 'Featured Image'}
             fill
             className="object-cover"
-            priority
           />
         </div>
       )}

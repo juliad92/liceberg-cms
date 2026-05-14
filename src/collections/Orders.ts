@@ -1,24 +1,59 @@
 import { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const Orders: CollectionConfig = {
   slug: 'orders',
   access: {
-    create: () => true, // ← allow Stripe webhook to create orders
-    read: () => true, // ← false only admins can read orders
-    update: () => false,
+    create: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      return false
+    },
+    read: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      // Account token — Payload populates req.user from the auth collection
+      // that matches the token, so we check the collection slug
+      if (user?.collection === 'accounts' && user?.email) {
+        return {
+          customerEmail: { equals: user.email },
+        }
+      }
+      if (!user?.email) return false
+
+      return false
+    },
+
+    update: ({ req }) => {
+      const { user } = req
+      if (isAdminUser(user)) return true
+      // Allow updates via API Key (for Stripe Webhook)
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      return false
+    },
+
     delete: () => false,
   },
   admin: {
     useAsTitle: 'customerEmail',
-    defaultColumns: [
-      'customerEmail',
-      'productTitles',
-      'total',
-      'status',
-      'orderType',
-      'startingIssue',
-      'createdAt',
-    ],
+    defaultColumns: ['customerEmail', 'total', 'status', 'createdAt'],
   },
 
   fields: [

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -7,6 +8,9 @@ export const Categories: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     {

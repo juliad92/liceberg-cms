@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { PostContent } from '@/components/PostContent'
 import { getPostBySlug, getAllPostSlugs } from '@/lib/payload'
 
+import { Post } from '@/payload-types'
+
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -16,12 +18,15 @@ export async function generateStaticParams() {
 // Generate SEO metadata
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const post = (await getPostBySlug(slug)) as Post | null
 
   if (!post) return {}
 
   return {
-    title: post.seo?.metaTitle || post.title,
+    title:
+      post && 'seo' in post && post.seo?.metaTitle
+        ? post.seo.metaTitle
+        : post?.title || 'Default Title',
     description: post.seo?.metaDescription || post.excerpt,
     openGraph: {
       title: post.seo?.metaTitle || post.title,
@@ -37,7 +42,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const post = (await getPostBySlug(slug)) as Post | null
 
   if (!post) notFound()
 

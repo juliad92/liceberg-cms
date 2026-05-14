@@ -1,3 +1,4 @@
+import { isAdminUser } from '@/lib/isAdminUser'
 import type { CollectionConfig } from 'payload'
 
 export const AgendaEvents: CollectionConfig = {
@@ -6,12 +7,6 @@ export const AgendaEvents: CollectionConfig = {
     singular: 'Agenda Event',
     plural: 'Agenda Events',
   },
-  // access: {
-  // read: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  // create: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  // update: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  // delete: ({ req: { user } }) => user?.email === 'jdemichel.jd@gmail.com',
-  // },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'startDate', 'location', 'eventType', 'featured'],
@@ -20,6 +15,9 @@ export const AgendaEvents: CollectionConfig = {
   defaultSort: 'startDate',
   access: {
     read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     // ─── Core Info ───────────────────────────────────────────────

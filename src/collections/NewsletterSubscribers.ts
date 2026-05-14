@@ -1,18 +1,17 @@
 import { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const NewsletterSubscribers: CollectionConfig = {
   slug: 'newsletter-subscribers',
   access: {
-    create: () => true, // ← anyone can read products
-    // Seuls les admins peuvent voir la liste ou modifier
-    //   read: ({ req: { user } }) => Boolean(user),
-    update: ({ req: { user } }) => Boolean(user),
-    delete: ({ req: { user } }) => Boolean(user),
+    create: () => true,
+    read: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'createdAt'],
-    hidden: ({ user }) => user.role !== 'admin',
   },
   fields: [
     {
@@ -24,6 +23,10 @@ const NewsletterSubscribers: CollectionConfig = {
     {
       name: 'subscribedAt',
       type: 'date',
+    },
+    {
+      name: 'subscribed',
+      type: 'checkbox',
     },
   ],
 }

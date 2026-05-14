@@ -1,9 +1,83 @@
 import { CollectionConfig } from 'payload'
+import { isAdminUser } from '../lib/isAdminUser'
+import { AUTH_COOKIE_POLICY } from '@/lib/auth/sessionConfig'
+
+const isRefreshTokenRequest = (req: {
+  url?: string | URL
+  originalUrl?: string
+  path?: string
+  nextUrl?: { pathname?: string }
+  headers: { get: (key: string) => string | null }
+}) => {
+  const candidates = [
+    req.path,
+    req.originalUrl,
+    req.nextUrl?.pathname,
+    typeof req.url === 'string'
+      ? new URL(req.url, process.env.PAYLOAD_PUBLIC_SERVER_URL).pathname
+      : req.url?.pathname,
+  ]
+
+  const matchesAccountsAuthRoute = candidates.some((path) => {
+    if (!path) return false
+    return (
+      path.includes('/accounts/') &&
+      (path.includes('/refresh-token') ||
+        path.includes('/login') ||
+        path.includes('/logout') ||
+        path.includes('/forgot-password') ||
+        path.includes('/reset-password') ||
+        path.includes('/verify') ||
+        path.includes('/unlock'))
+    )
+  })
+
+  if (matchesAccountsAuthRoute) return true
+
+  // Some adapters do not expose URL/path consistently during auth internals.
+  // Fallback to cookie presence used by refresh-token flows.
+  const cookieHeader = req.headers.get('cookie') || ''
+  return (
+    cookieHeader.includes('payload-refresh-token=') ||
+    cookieHeader.includes('payload-token=')
+  )
+}
+
+const isAccountsAuthRequest = (req: {
+  url?: string | URL
+  originalUrl?: string
+  path?: string
+  nextUrl?: { pathname?: string }
+}) => {
+  const candidates = [
+    req.path,
+    req.originalUrl,
+    req.nextUrl?.pathname,
+    typeof req.url === 'string'
+      ? new URL(req.url, process.env.PAYLOAD_PUBLIC_SERVER_URL).pathname
+      : req.url?.pathname,
+  ]
+
+  return candidates.some((path) => {
+    if (!path) return false
+    return (
+      path.includes('/accounts/') &&
+      (path.includes('/refresh-token') ||
+        path.includes('/login') ||
+        path.includes('/logout') ||
+        path.includes('/forgot-password') ||
+        path.includes('/reset-password') ||
+        path.includes('/verify') ||
+        path.includes('/unlock'))
+    )
+  })
+}
 
 const Accounts: CollectionConfig = {
   slug: 'accounts',
   auth: {
     useAPIKey: true,
+    cookies: AUTH_COOKIE_POLICY,
     forgotPassword: {
       // Payload sends this email automatically when hitting /api/accounts/forgot-password
       // Customize the email template here
@@ -115,11 +189,87 @@ const Accounts: CollectionConfig = {
       'createdAt',
     ],
   },
+  endpoints: [
+    {
+      path: '/me/stripe-customer-id',
+      method: 'get',
+      handler: async (req) => {
+        const { user } = req
+        if (!user?.id) {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        // In some auth flows `collection` is not present on req.user.
+        // If present and not accounts, reject explicitly.
+        if (
+          'collection' in user &&
+          user.collection &&
+          user.collection !== 'accounts'
+        ) {
+          return Response.json({ error: 'Forbidden' }, { status: 403 })
+        }
+
+        // Prefer the authenticated user payload, then fallback to a guarded read.
+        if (
+          typeof user.stripeCustomerId === 'string' &&
+          user.stripeCustomerId.length > 0
+        ) {
+          return Response.json({ stripeCustomerId: user.stripeCustomerId })
+        }
+
+        let account: { stripeCustomerId?: string | null } | null = null
+        try {
+          account = await req.payload.findByID({
+            collection: 'accounts',
+            id: user.id,
+            depth: 0,
+            overrideAccess: false,
+            user,
+            select: {
+              stripeCustomerId: true,
+            },
+          })
+        } catch {
+          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        return Response.json({
+          stripeCustomerId: account?.stripeCustomerId ?? null,
+        })
+      },
+    },
+  ],
   access: {
-    create: () => true, // ← inscription publique depuis le site
-    read: () => true, // false ?
-    update: () => true,
-    delete: () => true,
+    create: () => true,
+    read: ({ req }) => {
+      const { user } = req
+      if (isRefreshTokenRequest(req)) return true
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+
+      if (!user?.id) return false
+      return { id: { equals: user?.id } }
+    },
+    update: ({ req }) => {
+      const { user } = req
+      if (isRefreshTokenRequest(req)) return true
+      if (isAdminUser(user)) return true
+      if (
+        req.headers.get('authorization') ===
+        `users API-Key ${process.env.PAYLOAD_API_KEY}`
+      ) {
+        return true
+      }
+      if (!user?.id) return false
+
+      return { id: { equals: user?.id } }
+    },
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   fields: [
     {
@@ -141,11 +291,23 @@ const Accounts: CollectionConfig = {
     {
       name: 'resetToken',
       type: 'text',
+      access: {
+        read: ({ req }) => {
+          if (isAccountsAuthRequest(req)) return true
+          return isAdminUser(req.user)
+        },
+      },
       admin: { hidden: true },
     },
     {
       name: 'resetTokenExpiry',
       type: 'date',
+      access: {
+        read: ({ req }) => {
+          if (isAccountsAuthRequest(req)) return true
+          return isAdminUser(req.user)
+        },
+      },
       admin: { hidden: true },
     },
   ],

@@ -1,10 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { put } from '@vercel/blob'
+import { isAdminUser } from '@/lib/isAdminUser'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
     read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   admin: {
     useAsTitle: 'blobUrl',

@@ -1,12 +1,14 @@
 import { CollectionConfig } from 'payload'
 import { syncToStripe } from '../hooks/syncToStripe'
-import { Analytics } from '@vercel/analytics/next'
+import { isAdminUser } from '../lib/isAdminUser'
 
 const Products: CollectionConfig = {
   slug: 'products',
   access: {
-    read: () => true, // ← anyone can read products
-    update: () => true,
+    read: () => true,
+    create: ({ req: { user } }) => isAdminUser(user),
+    update: ({ req: { user } }) => isAdminUser(user),
+    delete: ({ req: { user } }) => isAdminUser(user),
   },
   admin: {
     useAsTitle: 'title', // shows the product title in the admin list
@@ -131,6 +133,30 @@ const Products: CollectionConfig = {
       },
     },
     {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Image principale (home + page produit)',
+      admin: {
+        description: 'Image affichée sur la home page et la page produit',
+      },
+      filterOptions: {
+        mimeType: { not_like: 'application/pdf' },
+      },
+    },
+    {
+      name: 'cardImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Image carte produit',
+      admin: {
+        description: 'Image affichée dans la ProductCard',
+      },
+      filterOptions: {
+        mimeType: { not_like: 'application/pdf' },
+      },
+    },
+    {
       name: 'images',
       type: 'array',
       fields: [
@@ -170,6 +196,14 @@ const Products: CollectionConfig = {
         { label: 'Non publié sur le site', value: 'unpublished' },
         { label: 'Publié sur le site', value: 'published' },
       ],
+    },
+    {
+      name: 'displayOrder',
+      type: 'number',
+      admin: {
+        description:
+          "Ordre d'affichage sur la home page (1 = dernier, 2 = avant-dernier, etc...)",
+      },
     },
     // Stripe fields — filled automatically by our hook later
     {

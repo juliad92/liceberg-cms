@@ -65,3 +65,13 @@ That's it! The Docker instance will help you get up and running quickly while al
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+
+## External Frontend Auth Integration
+
+For apps running on a different origin and using this project as auth authority:
+
+- Call auth endpoints with `credentials: 'include'` (login, me, refresh-token, logout).
+- Use an origin explicitly listed in `AUTH_ALLOWED_ORIGINS` (or `AUTH_ALLOWED_ORIGINS` env override).
+- Auth cookies are HTTP-only and follow `SameSite=None; Secure` in production HTTPS.
+- Local development for cross-site cookies should run HTTPS on both origins. If HTTPS is unavailable, set `AUTH_COOKIE_SECURE=false` to fall back to `SameSite=Lax` for local-only testing.
+- When refresh fails (`401/403`), treat the session as expired and redirect user to login.

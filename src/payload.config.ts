@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { importExportPlugin } from '@payloadcms/plugin-import-export'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -14,13 +15,14 @@ import Founders from './collections/Founders'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
 import Accounts from './collections/Accounts'
-import { Posts } from './collections/Posts'
+import { Posts } from '@/collections/Posts'
 import { Categories } from './collections/Categories'
 import { AgendaEvents } from './collections/AgendaEvents'
 
 import { Pages } from './collections/Pages'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { AUTH_ALLOWED_ORIGINS } from './lib/auth/sessionConfig'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,18 +50,8 @@ export default buildConfig({
       ],
     },
   },
-  cors: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://liceberg-cms.vercel.app', // ← CMS itself
-    'https://liceberg-web.vercel.app', // ← web frontend
-  ],
-  csrf: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://liceberg-cms.vercel.app', // ← CMS itself
-    'https://liceberg-web.vercel.app', // ← web frontend
-  ],
+  cors: AUTH_ALLOWED_ORIGINS,
+  csrf: AUTH_ALLOWED_ORIGINS,
   collections: [
     Users, // ← admins CMS uniquement
     Accounts, // ← abonnés du site
@@ -95,12 +87,9 @@ export default buildConfig({
     },
   }),
   sharp,
+  plugins: [
+    importExportPlugin({
+      collections: [{ slug: 'orders' }],
+    }),
+  ],
 })
-
-/*
-
-export default buildConfig({
-  serverURL: 'http://localhost:3000',
-  editor: lexicalEditor(),
-  
-*/
