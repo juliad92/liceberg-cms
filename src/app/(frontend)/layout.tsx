@@ -13,9 +13,11 @@ export default function FrontendLayout({
   children: React.ReactNode
 }) {
   return (
-    <div style={{ backgroundColor: 'white', color: '#1a1a1a' }}>
-      <main>{children}</main>
-      {/* <Analytics /> */}
-    </div>
+    <html lang="en">
+      <body style={{ backgroundColor: 'white', color: '#1a1a1a' }}>
+        <main>{children}</main>
+        <Analytics />
+      </body>
+    </html>
   )
 }

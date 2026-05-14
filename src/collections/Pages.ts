@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { HeroBlock } from '../blocks/HeroBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
+import { TitleBlock } from '../blocks/TitleBlock'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -55,7 +56,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [HeroBlock, RichTextBlock],
+      blocks: [HeroBlock, RichTextBlock, TitleBlock],
     },
     {
       name: 'meta',

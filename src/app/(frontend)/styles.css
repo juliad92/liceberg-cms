@@ -191,3 +191,15 @@ svg {
   color: inherit;
   text-decoration: underline;
 }
+
+.h3-bloc-title {
+  display: inline-block;
+  background: #e8634a;
+  color: white;
+  padding: 0.6rem 2rem;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

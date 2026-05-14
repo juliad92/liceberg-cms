@@ -37,6 +37,12 @@ export function Blocks({ layout }: { layout: Page['layout'] }) {
                 )}
               </section>
             )
+          case 'title':
+            return (
+              <section key={i} className="mx-auto max-w-3xl px-4 py-8">
+                <h3 className="h3-bloc-title">{block.text}</h3>
+              </section>
+            )
           default:
             return null
         }

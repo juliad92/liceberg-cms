@@ -681,6 +681,12 @@ export interface Page {
             blockName?: string | null;
             blockType: 'richText';
           }
+        | {
+            text: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'title';
+          }
       )[]
     | null;
   meta?: {
@@ -1275,6 +1281,13 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        title?:
+          | T
+          | {
+              text?: T;
               id?: T;
               blockName?: T;
             };
