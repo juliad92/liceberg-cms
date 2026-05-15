@@ -42,7 +42,7 @@ export default buildConfig({
           process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
         return `${base}/posts/preview/${data?.slug || '_'}`
       },
-      collections: ['posts'],
+      collections: ['posts', 'pages'],
       breakpoints: [
         { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
         { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },

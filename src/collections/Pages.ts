@@ -8,8 +8,16 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     livePreview: {
-      url: ({ data }) =>
-        `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/${data.slug ?? ''}`,
+      url: ({ data }) => {
+        const base =
+          process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        return `${base}/pages/preview/${data?.slug || '_'}`
+      },
+    },
+    preview: (doc) => {
+      const base =
+        process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+      return `${base}/pages/preview/${(doc as { slug?: string })?.slug || '_'}`
     },
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },

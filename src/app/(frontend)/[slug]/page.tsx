@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import configPromise from '@payload-config'
 import { RefreshRouteOnSave } from '../_components/RefreshRouteOnSave'
-import { Blocks } from '../_components/Blocks'
+import { PageContent } from '@/components/PageContent'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -31,11 +31,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       {isDraft && <RefreshRouteOnSave />}
-      <main>
-        <h1>{page.title}</h1>
-        {/* render your layout blocks here */}
-        <Blocks layout={page.layout} />
-      </main>
+      <PageContent page={page} />
     </>
   )
 }
