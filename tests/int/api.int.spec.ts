@@ -1,20 +1,28 @@
-import { getPayload, Payload } from 'payload'
-import config from '@/payload.config'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { getTestPayload } from '../helpers/testPayload'
+import { cleanupTestData, createAdminUser, testCredentials } from '../helpers/seedTestData'
 
-import { describe, it, beforeAll, expect } from 'vitest'
-
-let payload: Payload
-
-describe('API', () => {
+describe('Payload API connectivity', () => {
   beforeAll(async () => {
-    const payloadConfig = await config
-    payload = await getPayload({ config: payloadConfig })
+    const payload = await getTestPayload()
+    await cleanupTestData(payload)
+    await createAdminUser(payload)
   })
 
-  it('fetches users', async () => {
+  afterAll(async () => {
+    const payload = await getTestPayload()
+    await cleanupTestData(payload)
+  })
+
+  it('connects to the database and reads users', async () => {
+    const payload = await getTestPayload()
     const users = await payload.find({
       collection: 'users',
+      where: { email: { equals: testCredentials.adminEmail } },
+      limit: 1,
     })
-    expect(users).toBeDefined()
+
+    expect(users.docs).toHaveLength(1)
+    expect(users.docs[0]?.role).toBe('admin')
   })
 })
