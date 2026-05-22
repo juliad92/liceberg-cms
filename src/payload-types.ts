@@ -76,6 +76,7 @@ export interface Config {
     faq: Faq;
     media: Media;
     'newsletter-subscribers': NewsletterSubscriber;
+    'contact-requests': ContactRequest;
     posts: Post;
     categories: Category;
     'agenda-events': AgendaEvent;
@@ -98,6 +99,7 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    'contact-requests': ContactRequestsSelect<false> | ContactRequestsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'agenda-events': AgendaEventsSelect<false> | AgendaEventsSelect<true>;
@@ -474,6 +476,22 @@ export interface NewsletterSubscriber {
   email: string;
   subscribedAt?: string | null;
   subscribed?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Messages envoyés depuis le formulaire de contact du site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-requests".
+ */
+export interface ContactRequest {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  service: 'Service client' | 'Rédaction' | 'Juridique';
+  message: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -920,6 +938,10 @@ export interface PayloadLockedDocument {
         value: string | NewsletterSubscriber;
       } | null)
     | ({
+        relationTo: 'contact-requests';
+        value: string | ContactRequest;
+      } | null)
+    | ({
         relationTo: 'posts';
         value: string | Post;
       } | null)
@@ -1175,6 +1197,19 @@ export interface NewsletterSubscribersSelect<T extends boolean = true> {
   email?: T;
   subscribedAt?: T;
   subscribed?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-requests_select".
+ */
+export interface ContactRequestsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  service?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1459,6 +1494,7 @@ export interface TaskCreateCollectionExport {
       | 'faq'
       | 'media'
       | 'newsletter-subscribers'
+      | 'contact-requests'
       | 'posts'
       | 'categories'
       | 'agenda-events'

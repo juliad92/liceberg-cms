@@ -14,6 +14,7 @@ import Orders from './collections/Orders'
 import Founders from './collections/Founders'
 import FAQ from './collections/FAQ'
 import NewsletterSubscribers from './collections/NewsletterSubscribers'
+import ContactRequests from './collections/ContactRequests'
 import Accounts from './collections/Accounts'
 import { Posts } from '@/collections/Posts'
 import { Categories } from './collections/Categories'
@@ -61,6 +62,7 @@ export default buildConfig({
     FAQ,
     Media,
     NewsletterSubscribers,
+    ContactRequests,
     Posts,
     Categories,
     AgendaEvents,
