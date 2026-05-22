@@ -77,7 +77,7 @@ export default buildConfig({
     url: process.env.DATABASE_URL || '',
   }),
   email: nodemailerAdapter({
-    defaultFromAddress: 'onboarding@resend.dev',
+    defaultFromAddress: 'contact@liceberg.fr',
     defaultFromName: "L'Iceberg",
     transportOptions: {
       host: process.env.SMTP_HOST,
