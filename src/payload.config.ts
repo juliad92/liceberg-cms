@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -100,6 +101,19 @@ export default buildConfig({
           group: 'Data Management',
         },
       }),
+    }),
+    // Must run after import-export so `exports` / `imports` exist.
+    // Required on Vercel for any collection with upload: true.
+    vercelBlobStorage({
+      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+      collections: {
+        media: true,
+        exports: true,
+        imports: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      clientUploads: true, // bypass Vercel 4.5MB serverless body limit
+      addRandomSuffix: true,
     }),
   ],
 })
