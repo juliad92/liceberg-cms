@@ -320,12 +320,6 @@ export interface Product {
    * Image affichée dans la ProductCard
    */
   cardImage?: (string | null) | Media;
-  images?:
-    | {
-        image?: (string | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
   /**
    * Photos de pages intérieures du magazine
    */
@@ -1090,12 +1084,6 @@ export interface ProductsSelect<T extends boolean = true> {
   features?: T;
   coverImage?: T;
   cardImage?: T;
-  images?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
   pages?:
     | T
     | {

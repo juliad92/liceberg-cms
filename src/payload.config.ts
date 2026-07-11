@@ -92,6 +92,14 @@ export default buildConfig({
   plugins: [
     importExportPlugin({
       collections: [{ slug: 'orders' }],
+      // Visible in the admin sidebar (hidden by default via admin.group: false)
+      overrideExportCollection: ({ collection }) => ({
+        ...collection,
+        admin: {
+          ...collection.admin,
+          group: 'Data Management',
+        },
+      }),
     }),
   ],
 })

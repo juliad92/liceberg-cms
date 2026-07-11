@@ -157,21 +157,6 @@ const Products: CollectionConfig = {
       },
     },
     {
-      name: 'images',
-      type: 'array',
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media', // links to our Media collection
-          filterOptions: {
-            // Optionnel : n'affiche que les images dans le sélecteur
-            mimeType: { not_like: 'application/pdf' },
-          },
-        },
-      ],
-    },
-    {
       name: 'pages',
       type: 'array',
       label: 'Pages intérieures',
@@ -209,12 +194,12 @@ const Products: CollectionConfig = {
     {
       name: 'stripeProductId',
       type: 'text',
-      admin: { readOnly: true }, // editors can't edit this manually
+      // admin: { readOnly: true }, // editors can't edit this manually
     },
     {
       name: 'stripePriceId',
       type: 'text',
-      admin: { readOnly: true },
+      // admin: { readOnly: true },
     },
     {
       name: 'productPresentation',
