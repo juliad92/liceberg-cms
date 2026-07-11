@@ -135,6 +135,8 @@ const Orders: CollectionConfig = {
       options: [
         { label: 'Carte bancaire', value: 'card' },
         { label: 'Prélèvement SEPA', value: 'sepa_debit' },
+        // Legacy / imported orders (e.g. Shopify) — must stay valid for bulk edits
+        { label: 'Shopify Payments', value: 'Shopify Payments' },
       ],
       defaultValue: 'card',
     },

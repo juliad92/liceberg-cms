@@ -416,7 +416,7 @@ export interface Order {
     postalCode?: string | null;
     country?: string | null;
   };
-  paymentMethod?: ('card' | 'sepa_debit') | null;
+  paymentMethod?: ('card' | 'sepa_debit' | 'Shopify Payments') | null;
   orderType?: ('payment' | 'subscription') | null;
   stripeSubscriptionId?: string | null;
   updatedAt: string;
