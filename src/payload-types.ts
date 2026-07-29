@@ -508,7 +508,11 @@ export interface Post {
    */
   excerpt?: string | null;
   /**
-   * Cover image displayed at the top of the article.
+   * Image affichée sur la home et dans les listes d’articles (format carte).
+   */
+  cardImage?: (string | null) | Media;
+  /**
+   * Image affichée en en-tête sur la page de l’article (/posts/slug).
    */
   featuredImage?: (string | null) | Media;
   /**
@@ -1209,6 +1213,7 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   excerpt?: T;
+  cardImage?: T;
   featuredImage?: T;
   content?: T;
   author?: T;

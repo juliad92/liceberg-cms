@@ -27,11 +27,11 @@ export default async function BlogPage() {
             className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
           >
             {/* Cover image */}
-            {post.featuredImage && (
+            {(post.cardImage || post.featuredImage) && (
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
-                  src={post.featuredImage.url}
-                  alt={post.featuredImage.alt || post.title}
+                  src={(post.cardImage || post.featuredImage).url}
+                  alt={(post.cardImage || post.featuredImage).alt || post.title}
                   fill
                   className="object-cover transition group-hover:scale-105"
                 />

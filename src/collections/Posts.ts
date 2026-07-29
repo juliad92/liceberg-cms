@@ -89,13 +89,25 @@ export const Posts: CollectionConfig = {
       },
     },
 
-    // ── Featured Image ─────────────────────────────────────
+    // ── Images ───────────────────────────────────────────────
+    {
+      name: 'cardImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Image carte article',
+      admin: {
+        description:
+          'Image affichée sur la home et dans les listes d’articles (format carte).',
+      },
+    },
     {
       name: 'featuredImage',
       type: 'upload',
       relationTo: 'media',
+      label: 'Image principale (page article)',
       admin: {
-        description: 'Cover image displayed at the top of the article.',
+        description:
+          'Image affichée en en-tête sur la page de l’article (/posts/slug).',
       },
     },
 
