@@ -3,6 +3,8 @@ const DEFAULT_ALLOWED_ORIGINS = [
   'http://localhost:3001',
   'https://liceberg-cms.vercel.app',
   'https://liceberg-web.vercel.app',
+  'https://liceberg-cms-git-main-juliad92s-projects.vercel.app',
+  'https://liceberg-cms-git-dev-juliad92s-projects.vercel.app',
 ]
 
 const parseCsvEnv = (value: string | undefined): string[] => {
