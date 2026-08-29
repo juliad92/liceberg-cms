@@ -13,7 +13,9 @@ export default async function BlogPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-16">
-      <h1 className="mb-12 text-5xl font-bold tracking-tight text-gray-900">Blog</h1>
+      <h1 className="mb-12 text-5xl font-bold tracking-tight text-gray-900">
+        Blog
+      </h1>
 
       {posts.length === 0 && (
         <p className="text-gray-500">No posts published yet.</p>

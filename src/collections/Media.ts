@@ -34,9 +34,7 @@ export const Media: CollectionConfig = {
             return value
           },
         ],
-        afterRead: [
-          ({ data, value }) => value || data?.url || null,
-        ],
+        afterRead: [({ data, value }) => value || data?.url || null],
       },
     },
   ],

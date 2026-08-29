@@ -6,7 +6,7 @@ describe('POST /api/accounts/refresh-token', () => {
     const response = await POST(
       new Request('http://localhost:3000/api/accounts/refresh-token', {
         method: 'POST',
-      }),
+      })
     )
 
     expect(response.status).toBe(401)

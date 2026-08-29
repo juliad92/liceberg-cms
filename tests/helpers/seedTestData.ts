@@ -35,7 +35,7 @@ export async function createEditorUser(payload: Payload): Promise<User> {
 
 export async function createAccount(
   payload: Payload,
-  email: string,
+  email: string
 ): Promise<Account> {
   return payload.create({
     collection: 'accounts',
@@ -48,7 +48,7 @@ export async function createAccount(
 
 export async function getAccountUser(
   payload: Payload,
-  email: string,
+  email: string
 ): Promise<Account & { collection: 'accounts' }> {
   const result = await payload.find({
     collection: 'accounts',
@@ -64,7 +64,9 @@ export async function getAccountUser(
   return { ...account, collection: 'accounts' }
 }
 
-export function buildTestProduct(slug: string): Omit<Product, 'id' | 'updatedAt' | 'createdAt'> {
+export function buildTestProduct(
+  slug: string
+): Omit<Product, 'id' | 'updatedAt' | 'createdAt'> {
   return {
     title: 'Test product',
     slug,
@@ -78,7 +80,7 @@ export function buildTestProduct(slug: string): Omit<Product, 'id' | 'updatedAt'
 export async function createTestOrder(
   payload: Payload,
   customerEmail: string,
-  stripeSessionId: string,
+  stripeSessionId: string
 ): Promise<Order> {
   return payload.create({
     collection: 'orders',
@@ -102,7 +104,9 @@ export async function cleanupTestData(payload: Payload): Promise<void> {
   await payload.delete({
     collection: 'orders',
     where: {
-      customerEmail: { in: [testCredentials.account1Email, testCredentials.account2Email] },
+      customerEmail: {
+        in: [testCredentials.account1Email, testCredentials.account2Email],
+      },
     },
   })
 
@@ -116,7 +120,9 @@ export async function cleanupTestData(payload: Payload): Promise<void> {
   await payload.delete({
     collection: 'accounts',
     where: {
-      email: { in: [testCredentials.account1Email, testCredentials.account2Email] },
+      email: {
+        in: [testCredentials.account1Email, testCredentials.account2Email],
+      },
     },
   })
 
