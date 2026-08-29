@@ -4,8 +4,6 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
-const API_URL = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-
 interface FetchOptions {
   draft?: boolean
   depth?: number

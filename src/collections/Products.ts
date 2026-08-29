@@ -220,8 +220,6 @@ const Products: CollectionConfig = {
       validate: (val: string | string[] | null | undefined) => {
         if (!val) return true
 
-        // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
-        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
         if (typeof val === 'string') {
           const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/
           if (hexRegex.test(val)) {

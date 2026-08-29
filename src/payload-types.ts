@@ -484,7 +484,14 @@ export interface ContactRequest {
   name: string;
   email: string;
   phone?: string | null;
-  service: 'Service client' | 'Rédaction' | 'Juridique';
+  service:
+    | 'Service client'
+    | 'Proposer un sujet'
+    | 'Proposer des illustrations'
+    | 'Proposer un partenariat'
+    | 'Proposer une rencontre'
+    | 'Proposer une candidature'
+    | 'Autres demandes';
   message: string;
   updatedAt: string;
   createdAt: string;
