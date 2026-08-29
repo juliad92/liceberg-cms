@@ -3,8 +3,12 @@ import { isAdminUser } from '../lib/isAdminUser'
 
 const serviceOptions = [
   { label: 'Service client', value: 'Service client' },
-  { label: 'Rédaction', value: 'Rédaction' },
-  { label: 'Juridique', value: 'Juridique' },
+  { label: 'Proposer un sujet', value: 'Proposer un sujet' },
+  { label: 'Proposer des illustrations', value: 'Proposer des illustrations' },
+  { label: 'Proposer un partenariat', value: 'Proposer un partenariat' },
+  { label: 'Proposer une rencontre', value: 'Proposer une rencontre' },
+  { label: 'Proposer une candidature', value: 'Proposer une candidature' },
+  { label: 'Autres demandes', value: 'Autres demandes' },
 ] as const
 
 const ContactRequests: CollectionConfig = {
