@@ -11,8 +11,6 @@ config({
   path: existsSync(testEnvPath) ? testEnvPath : testEnvExamplePath,
 })
 
-process.env.NODE_ENV = 'test'
-
 // Avoid Nodemailer verifying production SMTP during Payload init in tests.
 process.env.SMTP_HOST = process.env.SMTP_HOST ?? ''
 process.env.SMTP_USER = process.env.SMTP_USER ?? ''
