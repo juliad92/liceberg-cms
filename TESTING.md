@@ -2,13 +2,13 @@
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm test:unit` | Fast unit tests (hooks, auth helpers, route handlers) |
-| `pnpm test:int` | Integration tests against MongoDB (access control, CRUD) |
-| `pnpm test:coverage` | Full suite with coverage report and thresholds |
-| `pnpm test:ci` | Same as CI: unit + int + coverage |
-| `pnpm test:e2e` | Playwright smoke tests (starts dev server) |
+| Command              | Description                                              |
+| -------------------- | -------------------------------------------------------- |
+| `pnpm test:unit`     | Fast unit tests (hooks, auth helpers, route handlers)    |
+| `pnpm test:int`      | Integration tests against MongoDB (access control, CRUD) |
+| `pnpm test:coverage` | Full suite with coverage report and thresholds           |
+| `pnpm test:ci`       | Same as CI: unit + int + coverage                        |
+| `pnpm test:e2e`      | Playwright smoke tests (starts dev server)               |
 
 ## Local setup
 

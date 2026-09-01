@@ -1,12 +1,31 @@
-import type { CollectionConfig } from 'payload'
+import type { Access, CollectionConfig } from 'payload'
 import { HeroBlock } from '../blocks/HeroBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { TitleBlock } from '../blocks/TitleBlock'
+
+export const PAGES_EDITOR_EMAIL = 'jdemichel.jd@gmail.com'
+
+export function canManagePages({
+  req,
+}: {
+  req: { user?: { email?: string } | null }
+}) {
+  return req.user?.email?.trim().toLowerCase() === PAGES_EDITOR_EMAIL
+}
+
+const pagesReadAccess: Access = ({ req: { user } }) => {
+  if (canManagePages({ req: { user } })) return true
+  if (user) return false
+  return {
+    _status: { equals: 'published' },
+  }
+}
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
+    hidden: ({ user }) => !canManagePages({ req: { user } }),
     livePreview: {
       url: ({ data }) => {
         const base =
@@ -22,7 +41,10 @@ export const Pages: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   access: {
-    read: () => true,
+    read: pagesReadAccess,
+    create: ({ req }) => canManagePages({ req }),
+    update: ({ req }) => canManagePages({ req }),
+    delete: ({ req }) => canManagePages({ req }),
   },
   versions: {
     // drafts: true, // enables draft/publish workflow

@@ -61,7 +61,7 @@ describe('Products access', () => {
         data: buildTestProduct(`${testSlug}-denied`),
         user: editor.docs[0],
         overrideAccess: false,
-      }),
+      })
     ).rejects.toThrow()
   })
 

@@ -20,12 +20,12 @@ describe('Orders access', () => {
     await createTestOrder(
       payload,
       testCredentials.account1Email,
-      `cs_test_${Date.now()}_1`,
+      `cs_test_${Date.now()}_1`
     )
     await createTestOrder(
       payload,
       testCredentials.account2Email,
-      `cs_test_${Date.now()}_2`,
+      `cs_test_${Date.now()}_2`
     )
   })
 
@@ -36,7 +36,10 @@ describe('Orders access', () => {
 
   it('scopes account reads to orders with matching customerEmail', async () => {
     const payload = await getTestPayload()
-    const accountUser = await getAccountUser(payload, testCredentials.account1Email)
+    const accountUser = await getAccountUser(
+      payload,
+      testCredentials.account1Email
+    )
 
     const orders = await payload.find({
       collection: 'orders',
@@ -48,14 +51,17 @@ describe('Orders access', () => {
     expect(orders.docs.length).toBeGreaterThan(0)
     expect(
       orders.docs.every(
-        (order) => order.customerEmail === testCredentials.account1Email,
-      ),
+        (order) => order.customerEmail === testCredentials.account1Email
+      )
     ).toBe(true)
   })
 
   it('does not expose other customers orders to an account', async () => {
     const payload = await getTestPayload()
-    const accountUser = await getAccountUser(payload, testCredentials.account1Email)
+    const accountUser = await getAccountUser(
+      payload,
+      testCredentials.account1Email
+    )
 
     const orders = await payload.find({
       collection: 'orders',

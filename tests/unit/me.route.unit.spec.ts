@@ -6,9 +6,7 @@ const { mockPayloadGet } = vi.hoisted(() => ({
 
 vi.mock('@payloadcms/next/routes', () => ({
   REST_GET: vi.fn(() => mockPayloadGet),
-  REST_OPTIONS: vi.fn(
-    () => async () => new Response(null, { status: 204 }),
-  ),
+  REST_OPTIONS: vi.fn(() => async () => new Response(null, { status: 204 })),
   REST_POST: vi.fn(),
 }))
 
@@ -24,11 +22,11 @@ describe('GET /api/accounts/me', () => {
       new Response(JSON.stringify({ message: 'Unauthorized' }), {
         status: 401,
         headers: { 'content-type': 'application/json' },
-      }),
+      })
     )
 
     const response = await GET(
-      new Request('http://localhost:3000/api/accounts/me'),
+      new Request('http://localhost:3000/api/accounts/me')
     )
 
     expect(response.status).toBe(401)
@@ -49,12 +47,12 @@ describe('GET /api/accounts/me', () => {
             firstName: 'Reader',
           },
         }),
-        { status: 200, headers: { 'content-type': 'application/json' } },
-      ),
+        { status: 200, headers: { 'content-type': 'application/json' } }
+      )
     )
 
     const response = await GET(
-      new Request('http://localhost:3000/api/accounts/me'),
+      new Request('http://localhost:3000/api/accounts/me')
     )
 
     expect(response.status).toBe(200)

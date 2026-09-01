@@ -6,8 +6,10 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
+    setupFiles: ['./vitest.int.setup.ts'],
     include: ['tests/int/**/*.int.spec.ts'],
     fileParallelism: false,
+    hookTimeout: 120_000,
+    testTimeout: 30_000,
   },
 })

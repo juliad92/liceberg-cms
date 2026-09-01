@@ -16,7 +16,7 @@ export type BrowserRefreshFailure = {
 export type BrowserRefreshResult = BrowserRefreshSuccess | BrowserRefreshFailure
 
 const parseError = async (
-  response: Response,
+  response: Response
 ): Promise<BrowserRefreshFailure['error']> => {
   try {
     const parsed = await response.json()

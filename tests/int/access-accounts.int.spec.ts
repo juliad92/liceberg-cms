@@ -30,7 +30,10 @@ describe('Accounts access', () => {
 
   it('lets an account read only its own profile', async () => {
     const payload = await getTestPayload()
-    const accountUser = await getAccountUser(payload, testCredentials.account1Email)
+    const accountUser = await getAccountUser(
+      payload,
+      testCredentials.account1Email
+    )
 
     const ownProfile = await payload.findByID({
       collection: 'accounts',
@@ -44,7 +47,10 @@ describe('Accounts access', () => {
 
   it('prevents an account from reading another account', async () => {
     const payload = await getTestPayload()
-    const accountUser = await getAccountUser(payload, testCredentials.account1Email)
+    const accountUser = await getAccountUser(
+      payload,
+      testCredentials.account1Email
+    )
 
     await expect(
       payload.findByID({
@@ -52,7 +58,7 @@ describe('Accounts access', () => {
         id: account2Id,
         user: accountUser,
         overrideAccess: false,
-      }),
+      })
     ).rejects.toThrow()
   })
 

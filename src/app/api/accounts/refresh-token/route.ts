@@ -18,7 +18,7 @@ export const OPTIONS = async (request: Request): Promise<Response> =>
 const buildErrorResponse = (
   status: 401 | 403,
   body: AuthErrorBody,
-  sourceHeaders?: Headers,
+  sourceHeaders?: Headers
 ) => {
   const headers = new Headers(sourceHeaders)
   headers.set('content-type', 'application/json; charset=utf-8')
@@ -62,13 +62,17 @@ export const POST = async (request: Request): Promise<Response> => {
       hasRefreshCookie: cookieState.hasRefreshCookie,
       hasTokenCookie: cookieState.hasTokenCookie,
     })
-    return buildErrorResponse(response.status, {
-      ok: false,
-      error: {
-        code: 'INVALID_SESSION',
-        message: 'Session is missing or invalid.',
+    return buildErrorResponse(
+      response.status,
+      {
+        ok: false,
+        error: {
+          code: 'INVALID_SESSION',
+          message: 'Session is missing or invalid.',
+        },
       },
-    }, response.headers)
+      response.headers
+    )
   }
 
   return response

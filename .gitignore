@@ -56,6 +56,9 @@ node_modules/
 dist/
 .env
 .env.local
+.env.prod
+.env.example
+.env.test.example
 *.log
 .DS_Store
 .pnpm-store/

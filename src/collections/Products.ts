@@ -1,6 +1,9 @@
 import { CollectionConfig } from 'payload'
 import { syncToStripe } from '../hooks/syncToStripe'
 import { isAdminUser } from '../lib/isAdminUser'
+import type { Product } from '@/payload-types'
+
+type ProductSummaryItem = NonNullable<Product['summary']>[number]
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -17,10 +20,11 @@ const Products: CollectionConfig = {
   hooks: {
     beforeChange: [syncToStripe],
     afterRead: [
-      ({ doc }) => {
+      ({ doc }: { doc: Product }) => {
         if (doc?.summary && Array.isArray(doc.summary)) {
           doc.summary = [...doc.summary].sort(
-            (a: any, b: any) => parseInt(a.page) - parseInt(b.page)
+            (a: ProductSummaryItem, b: ProductSummaryItem) =>
+              parseInt(a.page, 10) - parseInt(b.page, 10)
           )
         }
         return doc
@@ -126,6 +130,16 @@ const Products: CollectionConfig = {
       },
     },
     {
+      name: 'nextIssueSubscriptionStartDate',
+      type: 'date',
+      label: 'Début des abonnements au prochain numéro',
+      admin: {
+        description:
+          'Date à laquelle le prochain numéro devient le numéro en cours pour les abonnements (ex : 1er octobre 2026).',
+        condition: (data) => data?.type === 'issue',
+      },
+    },
+    {
       name: 'features',
       type: 'richText',
       admin: {
@@ -220,8 +234,6 @@ const Products: CollectionConfig = {
       validate: (val: string | string[] | null | undefined) => {
         if (!val) return true
 
-        // Vérifie si la chaîne commence par # suivi de 3 ou 6 caractères hexadécimaux
-        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
         if (typeof val === 'string') {
           const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8})$/
           if (hexRegex.test(val)) {

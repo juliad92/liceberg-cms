@@ -9,7 +9,7 @@ import { refreshSessionInBrowser } from '@/lib/auth/browserSession'
 describe('auth session config', () => {
   it('detects refresh success preconditions with cookies', () => {
     const cookieState = getRefreshCookieState(
-      'payload-refresh-token=abc; payload-token=def',
+      'payload-refresh-token=abc; payload-token=def'
     )
 
     expect(cookieState.hasRefreshCookie).toBe(true)
@@ -64,9 +64,11 @@ describe('browser refresh helper', () => {
   })
 
   it('calls refresh endpoint with include credentials', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({ token: 'new-token' }), { status: 200 }),
-    )
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        new Response(JSON.stringify({ token: 'new-token' }), { status: 200 })
+      )
     global.fetch = fetchMock as unknown as typeof fetch
 
     const result = await refreshSessionInBrowser()
@@ -85,8 +87,8 @@ describe('browser refresh helper', () => {
           ok: false,
           error: { code: 'INVALID_SESSION', message: 'Session is invalid.' },
         }),
-        { status: 403 },
-      ),
+        { status: 403 }
+      )
     )
     global.fetch = fetchMock as unknown as typeof fetch
 

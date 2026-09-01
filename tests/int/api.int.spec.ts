@@ -1,6 +1,10 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { getTestPayload } from '../helpers/testPayload'
-import { cleanupTestData, createAdminUser, testCredentials } from '../helpers/seedTestData'
+import {
+  cleanupTestData,
+  createAdminUser,
+  testCredentials,
+} from '../helpers/seedTestData'
 
 describe('Payload API connectivity', () => {
   beforeAll(async () => {

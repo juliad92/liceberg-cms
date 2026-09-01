@@ -61,9 +61,7 @@ export function PostContent({ post }: Props) {
 
       {/* Meta */}
       <div className="mb-8 flex items-center gap-4 border-b border-gray-100 pb-6 text-sm text-gray-500">
-        {author && (
-          <span>By {(author as any).name || (author as any).email}</span>
-        )}
+        {author && typeof author !== 'string' && <span>By {author.email}</span>}
         {publishedAt && (
           <time dateTime={publishedAt}>
             {new Date(publishedAt).toLocaleDateString('en-US', {
