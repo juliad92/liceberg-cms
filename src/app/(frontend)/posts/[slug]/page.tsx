@@ -22,6 +22,15 @@ export async function generateMetadata({ params }: Props) {
 
   if (!post) return {}
 
+  const ogImage = post.seo?.ogImage
+  const featuredImage = post.featuredImage
+  const ogImageUrl =
+    ogImage && typeof ogImage !== 'string' ? ogImage.url : undefined
+  const featuredImageUrl =
+    featuredImage && typeof featuredImage !== 'string'
+      ? featuredImage.url
+      : undefined
+
   return {
     title:
       post && 'seo' in post && post.seo?.metaTitle
@@ -31,10 +40,10 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: post.seo?.metaTitle || post.title,
       description: post.seo?.metaDescription || post.excerpt,
-      images: post.seo?.ogImage
-        ? [{ url: (post.seo.ogImage as any).url }]
-        : post.featuredImage
-          ? [{ url: (post.featuredImage as any).url }]
+      images: ogImageUrl
+        ? [{ url: ogImageUrl }]
+        : featuredImageUrl
+          ? [{ url: featuredImageUrl }]
           : [],
     },
   }

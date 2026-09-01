@@ -2,6 +2,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/payload'
+import type { Category, Media, Post } from '@/payload-types'
+
+function getPopulatedMedia(
+  media: string | Media | null | undefined
+): Media | null {
+  return media && typeof media !== 'string' ? media : null
+}
 
 export const metadata = {
   title: 'Blog',
@@ -22,18 +29,21 @@ export default async function BlogPage() {
       )}
 
       <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post: any) => (
+        {posts.map((post: Post) => {
+          const image = getPopulatedMedia(post.cardImage ?? post.featuredImage)
+
+          return (
           <Link
             key={post.id}
             href={`/posts/${post.slug}`}
             className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
           >
             {/* Cover image */}
-            {(post.cardImage || post.featuredImage) && (
+            {image?.url && (
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
-                  src={(post.cardImage || post.featuredImage).url}
-                  alt={(post.cardImage || post.featuredImage).alt || post.title}
+                  src={image.url}
+                  alt={image.alt || post.title}
                   fill
                   className="object-cover transition group-hover:scale-105"
                 />
@@ -42,9 +52,11 @@ export default async function BlogPage() {
 
             <div className="flex flex-1 flex-col p-5">
               {/* Categories */}
-              {post.categories?.length > 0 && (
+              {post.categories && post.categories.length > 0 && (
                 <div className="mb-2 flex flex-wrap gap-1">
-                  {post.categories.map((cat: any) => (
+                  {post.categories
+                    .filter((cat): cat is Category => typeof cat !== 'string')
+                    .map((cat) => (
                     <span
                       key={cat.id}
                       className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600"
@@ -66,8 +78,8 @@ export default async function BlogPage() {
               )}
 
               <div className="mt-auto flex items-center justify-between text-xs text-gray-400">
-                {post.author && (
-                  <span>{post.author.name || post.author.email}</span>
+                {post.author && typeof post.author !== 'string' && (
+                  <span>{post.author.email}</span>
                 )}
                 {post.publishedAt && (
                   <time dateTime={post.publishedAt}>
@@ -81,7 +93,8 @@ export default async function BlogPage() {
               </div>
             </div>
           </Link>
-        ))}
+          )
+        })}
       </div>
     </main>
   )
