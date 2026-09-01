@@ -24,7 +24,7 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['.next/', 'pnpm-lock.yaml', 'src/payload-types.ts'],
+    ignores: ['.next/', 'pnpm-lock.yaml'],
   },
 ]
 
