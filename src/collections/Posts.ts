@@ -16,7 +16,7 @@ export const Posts: CollectionConfig = {
     preview: (doc) => {
       const base =
         process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-      return `${base}/posts/preview/${(doc as any)?.slug || '_'}`
+      return `${base}/posts/preview/${(doc as { slug?: string })?.slug || '_'}`
     },
   },
   versions: {
@@ -145,7 +145,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'categories',
       type: 'relationship',
-      relationTo: 'categories' as any,
+      relationTo: 'categories',
       hasMany: true,
       admin: {
         position: 'sidebar',

@@ -1,6 +1,9 @@
 import { CollectionConfig } from 'payload'
 import { syncToStripe } from '../hooks/syncToStripe'
 import { isAdminUser } from '../lib/isAdminUser'
+import type { Product } from '@/payload-types'
+
+type ProductSummaryItem = NonNullable<Product['summary']>[number]
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -17,10 +20,11 @@ const Products: CollectionConfig = {
   hooks: {
     beforeChange: [syncToStripe],
     afterRead: [
-      ({ doc }) => {
+      ({ doc }: { doc: Product }) => {
         if (doc?.summary && Array.isArray(doc.summary)) {
           doc.summary = [...doc.summary].sort(
-            (a: any, b: any) => parseInt(a.page) - parseInt(b.page)
+            (a: ProductSummaryItem, b: ProductSummaryItem) =>
+              parseInt(a.page, 10) - parseInt(b.page, 10)
           )
         }
         return doc

@@ -41,8 +41,6 @@ describe('SubscriberGaugeSettings access', () => {
         req: { user: { email: SUBSCRIBER_GAUGE_EDITOR_EMAIL } },
       })
     ).toBe(true)
-    expect(
-      read({ req: { user: { email: 'other@example.com' } } })
-    ).toBe(false)
+    expect(read({ req: { user: { email: 'other@example.com' } } })).toBe(false)
   })
 })
