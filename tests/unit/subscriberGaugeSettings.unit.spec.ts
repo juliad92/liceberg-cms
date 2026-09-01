@@ -1,3 +1,4 @@
+import type { Access } from 'payload'
 import { describe, expect, it } from 'vitest'
 import {
   canManageSubscriberGauge,
@@ -34,15 +35,14 @@ describe('SubscriberGaugeSettings access', () => {
   })
 
   it('restricts global reads as well as updates', () => {
-    const read = SubscriberGaugeSettings.access?.read
-    expect(typeof read).toBe('function')
+    const read = SubscriberGaugeSettings.access?.read as Access
     expect(
-      (read as Function)({
+      read({
         req: { user: { email: SUBSCRIBER_GAUGE_EDITOR_EMAIL } },
       })
     ).toBe(true)
     expect(
-      (read as Function)({ req: { user: { email: 'other@example.com' } } })
+      read({ req: { user: { email: 'other@example.com' } } })
     ).toBe(false)
   })
 })
