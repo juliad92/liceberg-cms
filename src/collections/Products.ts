@@ -126,6 +126,16 @@ const Products: CollectionConfig = {
       },
     },
     {
+      name: 'nextIssueSubscriptionStartDate',
+      type: 'date',
+      label: 'Début des abonnements au prochain numéro',
+      admin: {
+        description:
+          'Date à laquelle le prochain numéro devient le numéro en cours pour les abonnements (ex : 1er octobre 2026).',
+        condition: (data) => data?.type === 'issue',
+      },
+    },
+    {
       name: 'features',
       type: 'richText',
       admin: {

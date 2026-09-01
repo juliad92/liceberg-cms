@@ -22,6 +22,7 @@ import { Categories } from './collections/Categories'
 import { AgendaEvents } from './collections/AgendaEvents'
 
 import { Pages } from './collections/Pages'
+import SubscriberGaugeSettings from './globals/SubscriberGaugeSettings'
 
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { AUTH_ALLOWED_ORIGINS } from './lib/auth/sessionConfig'
@@ -69,6 +70,7 @@ export default buildConfig({
     AgendaEvents,
     Pages,
   ],
+  globals: [SubscriberGaugeSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
